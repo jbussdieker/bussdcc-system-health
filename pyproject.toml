@@ -1,0 +1,65 @@
+[project]
+name = "bussdcc-system-health"
+dynamic = [
+    "version",
+]
+dependencies = [
+    "bussdcc==0.18.1",
+    "smbus2",
+    "psutil",
+    "flask",
+    "flask-socketio",
+    "bootstrap-flask",
+]
+description = "bussdcc-system-health"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Joshua B. Bussdieker", email = "jbussdieker@gmail.com" },
+]
+maintainers = [
+    { name = "Joshua B. Bussdieker", email = "jbussdieker@gmail.com" },
+]
+classifiers = [
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Typing :: Typed",
+]
+keywords = [
+    "system-health",
+]
+license = "MIT"
+
+[project.scripts]
+bussdcc-system-health = "bussdcc_system_health.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "types-Flask-SocketIO",
+    "types-psutil",
+]
+
+[project.urls]
+Homepage = "https://github.com/jbussdieker/bussdcc-system-health"
+Documentation = "https://github.com/jbussdieker/bussdcc-system-health/blob/main/README.md"
+Repository = "https://github.com/jbussdieker/bussdcc-system-health"
+Issues = "https://github.com/jbussdieker/bussdcc-system-health/issues"
+Changelog = "https://github.com/jbussdieker/bussdcc-system-health/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = [
+    "setuptools",
+    "setuptools-scm",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0"
