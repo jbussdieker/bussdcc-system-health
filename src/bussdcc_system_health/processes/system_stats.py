@@ -3,20 +3,11 @@ from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
 
 
-class SystemProcess(Process):
-    name = "system"
+class SystemStatsProcess(Process):
+    name = "system_stats"
 
     def on_event(self, ctx: ContextProtocol, evt: Event) -> None:
-        if evt.name == "system.booted":
-            ctx.state.set("system.version", evt.data["version"])
-
-        elif evt.name == "system_health.booted":
-            ctx.state.set("system_health.version", evt.data["version"])
-
-        elif evt.name == "system.identity":
-            ctx.state.set("system.identity", evt.data)
-
-        elif evt.name == "system.temperature.updated":
+        if evt.name == "system.temperature.updated":
             ctx.state.set("system.temperature", evt.data)
 
         elif evt.name == "system.load.updated":

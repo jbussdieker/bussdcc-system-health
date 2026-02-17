@@ -1,7 +1,6 @@
 from typing import Optional, Mapping, Any
 import time
 import os
-import socket
 from pathlib import Path
 
 import psutil
@@ -10,26 +9,14 @@ from bussdcc.context import ContextProtocol
 from bussdcc.service import Service
 
 
-class SystemService(Service):
-    name = "system"
+class SystemStatsService(Service):
+    name = "system_stats"
     interval = 5.0
 
     def __init__(self) -> None:
         self._prev_stat: Optional[dict[str, int]] = None
         self._prev_net: Optional[Mapping[str, Any]] = None
         self._prev_net_time: Optional[float] = None
-
-    def start(self, ctx: ContextProtocol) -> None:
-        hostname = socket.gethostname()
-        model = self._read("/proc/device-tree/model")
-        serial = self._cpuinfo_field("Serial")
-
-        ctx.events.emit(
-            "system.identity",
-            hostname=hostname,
-            model=model,
-            serial=serial,
-        )
 
     def tick(self, ctx: ContextProtocol) -> None:
         self._emit_memory_usage(ctx)
@@ -38,7 +25,6 @@ class SystemService(Service):
         self._emit_disk_usage(ctx)
         self._emit_temperature(ctx)
         self._emit_network_usage(ctx)
-        self._emit_throttling(ctx)
 
     def _emit_memory_usage(self, ctx: ContextProtocol) -> None:
         mem = psutil.virtual_memory()
@@ -158,22 +144,6 @@ class SystemService(Service):
             interfaces=interfaces,
         )
 
-    def _emit_throttling(self, ctx: ContextProtocol) -> None:
-        flags = self._read_throttled_flags()
-        if flags is None:
-            return
-
-        ctx.events.emit(
-            "system.throttling.updated",
-            **flags,
-        )
-
-    def _read(self, path: str) -> str | None:
-        try:
-            return Path(path).read_text().strip("\x00\n")
-        except Exception:
-            return None
-
     def _stat(self) -> Optional[dict[str, int]]:
         try:
             with open("/proc/stat", "r") as f:
@@ -194,15 +164,6 @@ class SystemService(Service):
             "softirq": values[6],
             "steal": values[7] if len(values) > 7 else 0,
         }
-
-    def _cpuinfo_field(self, key: str) -> str | None:
-        try:
-            for line in Path("/proc/cpuinfo").read_text().splitlines():
-                if line.startswith(key):
-                    return line.split(":", 1)[1].strip()
-        except Exception:
-            pass
-        return None
 
     def _read_cpu_temperature(self) -> float | None:
         # Most Linux SBCs expose CPU temp here
@@ -233,29 +194,3 @@ class SystemService(Service):
             pass
 
         return None
-
-    def _read_throttled_flags(self) -> dict[str, bool | int] | None:
-        path = Path("/sys/devices/platform/soc/soc:firmware/get_throttled")
-
-        try:
-            raw = path.read_text().strip()
-            value = int(raw, 0)  # handles hex automatically
-        except Exception:
-            return None
-
-        def bit(n: int) -> bool:
-            return bool(value & (1 << n))
-
-        return {
-            # current state
-            "undervoltage": bit(0),
-            "freq_capped": bit(1),
-            "throttled": bit(2),
-            "soft_temp_limit": bit(3),
-            # historical since boot
-            "undervoltage_occurred": bit(16),
-            "freq_capped_occurred": bit(17),
-            "throttled_occurred": bit(18),
-            "soft_temp_limit_occurred": bit(19),
-            "raw": value,
-        }
