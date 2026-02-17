@@ -1,0 +1,20 @@
+[Unit]
+Description=BussDCC System Health
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/bussdcc-system-health
+ExecStart=/home/ubuntu/bussdcc-system-health/.venv/bin/bussdcc-system-health
+
+Restart=always
+RestartSec=3
+
+KillSignal=SIGTERM
+TimeoutStopSec=30
+KillMode=process
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

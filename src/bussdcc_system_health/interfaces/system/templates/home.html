@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col col-4">
+    <div class="card mb-3">
+      <div class="card-header">Host Information</div>
+      <div class="card-body p-2">
+        <dl class="mb-0">
+          <dt>Host Name</dt>
+          <dd>{{ system_identity.hostname }}</dd>
+          <dt>Model</dt>
+          <dd>{{ system_identity.model or "—"}}</dd>
+          <dt>Serial</dt>
+          <dd>{{ system_identity.serial or "—" }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="col col-4">
+    <div class="card mb-3">
+      <div class="card-header">System Health</div>
+      <div class="card-body p-2">
+
+        <div id="health-status" class="alert alert-success mb-2">
+          ✅ Healthy
+        </div>
+
+        <dl class="mb-0 small">
+          <dt>Undervoltage</dt>
+          <dd id="throttle-undervoltage">—</dd>
+
+          <dt>Frequency Capped</dt>
+          <dd id="throttle-freq">—</dd>
+
+          <dt>Thermal Throttling</dt>
+          <dd id="throttle-thermal">—</dd>
+
+          <dt>Soft Temp Limit</dt>
+          <dd id="throttle-soft">—</dd>
+        </dl>
+
+      </div>
+    </div>
+  </div>
+  <div class="col col-4">
+    <div class="card mb-3">
+      <div class="card-header">System Information</div>
+      <div class="card-body p-2">
+        <dl class="mb-0">
+          <dt>Processor</dt>
+          <dd id="cpu_temp">{{ system_temperature.cpu_c or "—" }}</dd>
+          <div class="mb-2">
+            <div class="progress" style="height: 20px;">
+              <div id="cpu-user-bar" class="progress-bar bg-primary" role="progressbar" style="width: {{ cpu_usage.user }}%"></div>
+              <div id="cpu-system-bar" class="progress-bar bg-warning" role="progressbar" style="width: {{ cpu_usage.system }}%"></div>
+              <div id="cpu-iowait-bar" class="progress-bar bg-danger" role="progressbar" style="width: {{ cpu_usage.iowait }}%"></div>
+              <div id="cpu-idle-bar" class="progress-bar bg-secondary" role="progressbar" style="width: {{ cpu_usage.idle }}%"></div>
+            </div>
+          </div>
+          <dt>System Load (1m/5m/15m)</dt>
+          <dd id="load">{{ load["load_1m"] }} / {{ load["load_5m"] }} / {{ load["load_15m"] }}</dd>
+          <dt>Memory</dt>
+          <dd id="memory">{{ memory_usage.percent }}% ({{ (memory_usage.used / (1024 * 1024)) | round | int }}MB / {{ (memory_usage.total / (1024 * 1024)) | round | int }}MB)</dd>
+          <div class="mb-2">
+            <div class="progress" style="height: 20px;">
+              <div id="memory-bar" class="progress-bar bg-info" role="progressbar" style="width: {{ memory_usage.percent }}%"></div>
+            </div>
+          </div>
+          <dt>Disk</dt>
+          <dd id="disk">{{ disk_usage.percent }}% ({{ (disk_usage.used / (1024 * 1024)) | round | int }}MB / {{ (disk_usage.total / (1024 * 1024)) | round | int }}MB)</dd>
+          <div class="mb-2">
+            <div class="progress" style="height: 20px;">
+              <div id="disk-bar" class="progress-bar bg-info" role="progressbar" style="width: {{ disk_usage.percent }}%"></div>
+            </div>
+          </div>
+          <dt>Network</dt>
+          <dd id="network">
+            {% if network_usage %}
+              {% for iface in network_usage.interfaces %}
+                {{ iface.interface }}:
+                ↓ {{ (iface.rx_bps / 1024) | round(1) }} KB/s
+                ↑ {{ (iface.tx_bps / 1024) | round(1) }} KB/s<br>
+              {% endfor %}
+            {% else %}
+              —
+            {% endif %}
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  socket.on("ui.system.load.updated", (load) => {
+    const d = document.getElementById("load");
+    d.innerHTML = `${load["load_1m"].toFixed(1)} / ${load["load_5m"].toFixed(1)} / ${load["load_15m"].toFixed(1)}`;
+  });
+
+  socket.on("ui.system.cpu.usage.updated", (cpu) => {
+    document.getElementById("cpu-user-bar").style.width = cpu.user + "%";
+    document.getElementById("cpu-system-bar").style.width = cpu.system + "%";
+    document.getElementById("cpu-iowait-bar").style.width = cpu.iowait + "%";
+    document.getElementById("cpu-idle-bar").style.width = cpu.idle + "%";
+
+    document.getElementById("cpu-user-bar").title = `User ${cpu.user.toFixed(1)}%`;
+    document.getElementById("cpu-system-bar").title = `System ${cpu.system.toFixed(1)}%`;
+    document.getElementById("cpu-iowait-bar").title = `IOWait ${cpu.iowait.toFixed(1)}%`;
+    document.getElementById("cpu-idle-bar").title = `Idle ${cpu.idle.toFixed(1)}%`;
+
+    const iowaitBar = document.getElementById("cpu-iowait-bar");
+    if (cpu.iowait > 20) {
+      iowaitBar.classList.add("progress-bar-striped", "progress-bar-animated");
+    } else {
+      iowaitBar.classList.remove("progress-bar-striped", "progress-bar-animated");
+    }
+  });
+
+  socket.on("ui.system.temperature.updated", (temp) => {
+    const d = document.getElementById("cpu_temp");
+    d.innerHTML = temp.cpu_c;
+  });
+
+  socket.on("ui.system.memory.usage.updated", (mem) => {
+    const d = document.getElementById("memory");
+    d.textContent = `${mem.percent.toFixed(1)}% (${(mem.used/1024**2).toFixed(0)}MB / ${(mem.total/1024**2).toFixed(0)}MB)`;
+
+    document.getElementById("memory-bar").style.width = mem.percent + "%";
+  });
+
+  socket.on("ui.system.disk.usage.updated", (mem) => {
+    const d = document.getElementById("disk");
+    d.textContent = `${mem.percent.toFixed(1)}% (${(mem.used/1024**2).toFixed(0)}MB / ${(mem.total/1024**2).toFixed(0)}MB)`;
+
+    document.getElementById("disk-bar").style.width = mem.percent + "%";
+  });
+
+  socket.on("ui.system.network.usage.updated", (net) => {
+    const d = document.getElementById("network");
+
+    let html = "";
+
+    for (const iface of net.interfaces) {
+      const rx = (iface.rx_bps / 1024).toFixed(1);
+      const tx = (iface.tx_bps / 1024).toFixed(1);
+
+      html += `${iface.interface}: ↓ ${rx} KB/s ↑ ${tx} KB/s<br>`;
+    }
+
+    d.innerHTML = html || "—";
+  });
+
+  function updateHealthStatus(t) {
+    const health = document.getElementById("health-status");
+
+    if (t.undervoltage || t.throttled) {
+      health.className = "alert alert-danger mb-2";
+      health.innerHTML = "🔥 System Currently Throttled";
+      return;
+    }
+
+    if (
+      t.undervoltage_occurred ||
+      t.throttled_occurred ||
+      t.freq_capped_occurred
+    ) {
+      health.className = "alert alert-warning mb-2";
+      health.innerHTML = "⚠️ Past Throttling Detected";
+      return;
+    }
+
+    health.className = "alert alert-success mb-2";
+    health.innerHTML = "✅ Healthy";
+  }
+
+  socket.on("ui.system.throttling.updated", (t) => {
+    const set = (id, active, occurred) => {
+      const el = document.getElementById(id);
+
+      if (active) {
+        el.innerHTML = "🔴 ACTIVE";
+        el.className = "text-danger";
+      } else if (occurred) {
+        el.innerHTML = "🟡 occurred since boot";
+        el.className = "text-warning";
+      } else {
+        el.innerHTML = "🟢 OK";
+        el.className = "text-success";
+      }
+    };
+
+    set("throttle-undervoltage", t.undervoltage, t.undervoltage_occurred);
+    set("throttle-freq", t.freq_capped, t.freq_capped_occurred);
+    set("throttle-thermal", t.throttled, t.throttled_occurred);
+    set("throttle-soft", t.soft_temp_limit, t.soft_temp_limit_occurred);
+
+    updateHealthStatus(t);
+  });
+</script>
+{% endblock %}
