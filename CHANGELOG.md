@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.1.1...v0.2.0) (2026-02-18)
+
+
+### Features
+
+* **dependencies:** update bussdcc to version 0.19.0 ([340c719](https://github.com/jbussdieker/bussdcc-system-health/commit/340c719cfa3452631fdcde3940fce8d1279837b6))
+
 ## [0.1.1](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.1.0...v0.1.1) (2026-02-17)
 
 
