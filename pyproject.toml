@@ -4,7 +4,7 @@ dynamic = [
     "version",
 ]
 dependencies = [
-    "bussdcc==0.20.0",
+    "bussdcc==0.20.1",
     "smbus2",
     "psutil",
     "flask",
