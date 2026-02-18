@@ -3,9 +3,9 @@ import click
 from .runtime import Runtime
 from .sinks import ConsoleSink, JsonlSink
 
-from .processes import SystemIdentityProcess, SystemStatsProcess, SystemHealthProcess
+from .processes import SystemIdentityProcess, SystemStatsProcess
 from .interfaces import SystemWebInterface
-from .services import SystemIdentityService, SystemStatsService, SystemHealthService
+from .services import SystemIdentityService, SystemStatsService
 
 
 @click.group()
@@ -32,19 +32,13 @@ def run(
 
     runtime.register_process(SystemIdentityProcess())
     runtime.register_process(SystemStatsProcess())
-    runtime.register_process(SystemHealthProcess())
 
     runtime.register_interface(SystemWebInterface())
 
     runtime.register_service(SystemIdentityService())
 
     system_stats = SystemStatsService()
-    system_health = SystemHealthService()
-
     system_stats.interval = interval
-    system_health.interval = interval
-
     runtime.register_service(system_stats)
-    runtime.register_service(system_health)
 
     runtime.run()

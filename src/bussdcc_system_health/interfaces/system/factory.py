@@ -27,7 +27,6 @@ def create_app(ctx: ContextProtocol) -> HortusFlask:
         load = ctx.state.get("system.load")
         network_usage = ctx.state.get("system.network.usage")
         system_temperature = ctx.state.get("system.temperature")
-        system_throttling = ctx.state.get("system.throttling")
 
         return render_template(
             "home.html",
@@ -40,7 +39,6 @@ def create_app(ctx: ContextProtocol) -> HortusFlask:
             disk_usage=disk_usage,
             load=load,
             network_usage=network_usage,
-            system_throttling=system_throttling,
         )
 
     return app

@@ -24,6 +24,3 @@ class SystemStatsProcess(Process):
 
         elif evt.name == "system.network.usage.updated":
             ctx.state.set("system.network.usage", evt.data)
-
-        elif evt.name == "system.throttling.updated":
-            ctx.state.set("system.throttling", evt.data)

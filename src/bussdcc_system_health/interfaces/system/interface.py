@@ -41,5 +41,3 @@ class SystemWebInterface(Process):
             self.socketio.emit("ui.system.disk.usage.updated", evt.data)
         elif evt.name == "system.network.usage.updated":
             self.socketio.emit("ui.system.network.usage.updated", evt.data)
-        elif evt.name == "system.throttling.updated":
-            self.socketio.emit("ui.system.throttling.updated", evt.data)

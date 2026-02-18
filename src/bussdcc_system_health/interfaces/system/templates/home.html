@@ -16,34 +16,6 @@
         </dl>
       </div>
     </div>
-  </div>
-  <div class="col col-4">
-    <div class="card mb-3">
-      <div class="card-header">System Health</div>
-      <div class="card-body p-2">
-
-        <div id="health-status" class="alert alert-success mb-2">
-          ✅ Healthy
-        </div>
-
-        <dl class="mb-0 small">
-          <dt>Undervoltage</dt>
-          <dd id="throttle-undervoltage">—</dd>
-
-          <dt>Frequency Capped</dt>
-          <dd id="throttle-freq">—</dd>
-
-          <dt>Thermal Throttling</dt>
-          <dd id="throttle-thermal">—</dd>
-
-          <dt>Soft Temp Limit</dt>
-          <dd id="throttle-soft">—</dd>
-        </dl>
-
-      </div>
-    </div>
-  </div>
-  <div class="col col-4">
     <div class="card mb-3">
       <div class="card-header">System Information</div>
       <div class="card-body p-2">
@@ -148,53 +120,6 @@
     }
 
     d.innerHTML = html || "—";
-  });
-
-  function updateHealthStatus(t) {
-    const health = document.getElementById("health-status");
-
-    if (t.undervoltage || t.throttled) {
-      health.className = "alert alert-danger mb-2";
-      health.innerHTML = "🔥 System Currently Throttled";
-      return;
-    }
-
-    if (
-      t.undervoltage_occurred ||
-      t.throttled_occurred ||
-      t.freq_capped_occurred
-    ) {
-      health.className = "alert alert-warning mb-2";
-      health.innerHTML = "⚠️ Past Throttling Detected";
-      return;
-    }
-
-    health.className = "alert alert-success mb-2";
-    health.innerHTML = "✅ Healthy";
-  }
-
-  socket.on("ui.system.throttling.updated", (t) => {
-    const set = (id, active, occurred) => {
-      const el = document.getElementById(id);
-
-      if (active) {
-        el.innerHTML = "🔴 ACTIVE";
-        el.className = "text-danger";
-      } else if (occurred) {
-        el.innerHTML = "🟡 occurred since boot";
-        el.className = "text-warning";
-      } else {
-        el.innerHTML = "🟢 OK";
-        el.className = "text-success";
-      }
-    };
-
-    set("throttle-undervoltage", t.undervoltage, t.undervoltage_occurred);
-    set("throttle-freq", t.freq_capped, t.freq_capped_occurred);
-    set("throttle-thermal", t.throttled, t.throttled_occurred);
-    set("throttle-soft", t.soft_temp_limit, t.soft_temp_limit_occurred);
-
-    updateHealthStatus(t);
   });
 </script>
 {% endblock %}
