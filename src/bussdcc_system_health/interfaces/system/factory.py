@@ -18,7 +18,7 @@ def create_app(ctx: ContextProtocol) -> HortusFlask:
 
     @app.route("/")
     def home() -> str:
-        runtime_version = ctx.state.get("system.version")
+        runtime_version = ctx.state.get("runtime.version")
         app_version = ctx.state.get("system_health.version")
         system_identity = ctx.state.get("system.identity")
         cpu_usage = ctx.state.get("system.cpu.usage")

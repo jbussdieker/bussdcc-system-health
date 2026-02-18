@@ -10,10 +10,10 @@ class SystemStatsProcess(Process):
 
     HISTORY_SECONDS = 300
 
-    def __init__(self) -> None:
+    def start(self, ctx: ContextProtocol) -> None:
         self._net_history: dict[str, deque[dict[str, float | int]]] = {}
 
-    def on_event(self, ctx: ContextProtocol, evt: Event) -> None:
+    def handle_event(self, ctx: ContextProtocol, evt: Event) -> None:
         if evt.name == "system.temperature.updated":
             ctx.state.set("system.temperature", evt.data)
 
