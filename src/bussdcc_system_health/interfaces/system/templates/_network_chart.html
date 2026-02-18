@@ -63,6 +63,12 @@
       }
     }
 
+    const cutoff = net.timestamp - 300;
+
+    for (const dataset of netChart.data.datasets) {
+      dataset.data = dataset.data.filter(p => p.x/1000 >= cutoff);
+    }
+
     netChart.update("none");
   });
 </script>

@@ -11,7 +11,7 @@ class SystemStatsProcess(Process):
     HISTORY_SECONDS = 300
 
     def __init__(self) -> None:
-        self._net_history: dict[str, deque] = {}
+        self._net_history: dict[str, deque[dict[str, float | int]]] = {}
 
     def on_event(self, ctx: ContextProtocol, evt: Event) -> None:
         if evt.name == "system.temperature.updated":
@@ -35,13 +35,7 @@ class SystemStatsProcess(Process):
 
             now = evt.time.timestamp()
 
-            ctx.state.set(
-                "system.network.usage",
-                {
-                    **evt.data,
-                    "time": now,
-                },
-            )
+            ctx.state.set("system.network.usage", evt.data)
 
             for iface in evt.data.get("interfaces", []):
                 name = iface["interface"]

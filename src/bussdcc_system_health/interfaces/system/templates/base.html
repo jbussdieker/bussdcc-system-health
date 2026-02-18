@@ -14,7 +14,7 @@
             <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
             <script src="//cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
             <script type="text/javascript" charset="utf-8">
-                // Create a single global socket connection
+                // Global runtime event stream connection
                 var socket = io({
                     // optional: configure auto-reconnect
                     reconnection: true,
@@ -85,7 +85,7 @@
 
         <footer class="mt-4">
           <p class="text-center text-body-secondary">
-            system-health {{ app_version }} (bussdcc {{ runtime_version }})
+            system-health {{ app_version }} • bussdcc {{ runtime_version }}
           </p>
         </footer>
     </body>

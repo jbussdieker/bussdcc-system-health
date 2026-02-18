@@ -28,7 +28,7 @@ def run(
         runtime.add_sink(ConsoleSink())
 
     if record:
-        runtime.add_sink(JsonlSink(root="data/history", interval=record_interval))
+        runtime.add_sink(JsonlSink(root=record_path, interval=record_interval))
 
     runtime.register_process(SystemIdentityProcess())
     runtime.register_process(SystemStatsProcess())

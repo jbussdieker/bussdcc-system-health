@@ -2,6 +2,6 @@
 <script>
   socket.on("ui.system.temperature.updated", (temp) => {
     const d = document.getElementById("cpu_temp");
-    d.innerHTML = temp.cpu_c;
+    d.textContent = `${temp.cpu_c.toFixed(1)} °C`;
   });
 </script>
