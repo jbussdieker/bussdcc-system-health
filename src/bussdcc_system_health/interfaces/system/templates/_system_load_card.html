@@ -1,0 +1,9 @@
+<div id="load">
+{{ load["load_1m"] }} / {{ load["load_5m"] }} / {{ load["load_15m"] }}
+</div>
+<script>
+  socket.on("ui.system.load.updated", (load) => {
+    const d = document.getElementById("load");
+    d.innerHTML = `${load["load_1m"].toFixed(1)} / ${load["load_5m"].toFixed(1)} / ${load["load_15m"].toFixed(1)}`;
+  });
+</script>

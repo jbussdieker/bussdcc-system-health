@@ -40,4 +40,7 @@ class SystemWebInterface(Process):
         elif evt.name == "system.disk.usage.updated":
             self.socketio.emit("ui.system.disk.usage.updated", evt.data)
         elif evt.name == "system.network.usage.updated":
-            self.socketio.emit("ui.system.network.usage.updated", evt.data)
+            self.socketio.emit(
+                "ui.system.network.usage.updated",
+                {"timestamp": evt.time.timestamp(), **evt.data},
+            )

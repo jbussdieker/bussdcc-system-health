@@ -1,0 +1,11 @@
+<div id="disk">
+  {{ disk_usage.percent }}% ({{ (disk_usage.used / (1024 * 1024)) | round | int }}MB / {{ (disk_usage.total / (1024 * 1024)) | round | int }}MB)
+</div>
+<script>
+  socket.on("ui.system.disk.usage.updated", (mem) => {
+    const d = document.getElementById("disk");
+    d.textContent = `${mem.percent.toFixed(1)}% (${(mem.used/1024**2).toFixed(0)}MB / ${(mem.total/1024**2).toFixed(0)}MB)`;
+
+    document.getElementById("disk-bar").style.width = mem.percent + "%";
+  });
+</script>

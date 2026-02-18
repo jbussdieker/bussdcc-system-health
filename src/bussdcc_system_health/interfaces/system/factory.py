@@ -26,6 +26,7 @@ def create_app(ctx: ContextProtocol) -> HortusFlask:
         disk_usage = ctx.state.get("system.disk.usage")
         load = ctx.state.get("system.load")
         network_usage = ctx.state.get("system.network.usage")
+        network_history = ctx.state.get("system.network.history", {})
         system_temperature = ctx.state.get("system.temperature")
 
         return render_template(
@@ -39,6 +40,7 @@ def create_app(ctx: ContextProtocol) -> HortusFlask:
             disk_usage=disk_usage,
             load=load,
             network_usage=network_usage,
+            network_history=network_history,
         )
 
     return app

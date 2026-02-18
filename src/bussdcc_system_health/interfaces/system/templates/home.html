@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="col col-4">
+  <div class="col col-6">
     <div class="card mb-3">
       <div class="card-header">Host Information</div>
       <div class="card-body p-2">
@@ -21,105 +21,36 @@
       <div class="card-body p-2">
         <dl class="mb-0">
           <dt>Processor</dt>
-          <dd id="cpu_temp">{{ system_temperature.cpu_c or "—" }}</dd>
-          <div class="mb-2">
-            <div class="progress" style="height: 20px;">
-              <div id="cpu-user-bar" class="progress-bar bg-primary" role="progressbar" style="width: {{ cpu_usage.user }}%"></div>
-              <div id="cpu-system-bar" class="progress-bar bg-warning" role="progressbar" style="width: {{ cpu_usage.system }}%"></div>
-              <div id="cpu-iowait-bar" class="progress-bar bg-danger" role="progressbar" style="width: {{ cpu_usage.iowait }}%"></div>
-              <div id="cpu-idle-bar" class="progress-bar bg-secondary" role="progressbar" style="width: {{ cpu_usage.idle }}%"></div>
-            </div>
-          </div>
+          <dd>
+            {% include "_cpu_temperature_card.html" %}
+            {% include "_cpu_usage_bar.html" %}
+          </dd>
+
           <dt>System Load (1m/5m/15m)</dt>
-          <dd id="load">{{ load["load_1m"] }} / {{ load["load_5m"] }} / {{ load["load_15m"] }}</dd>
+          <dd>
+            {% include "_system_load_card.html" %}
+          </dd>
+
           <dt>Memory</dt>
-          <dd id="memory">{{ memory_usage.percent }}% ({{ (memory_usage.used / (1024 * 1024)) | round | int }}MB / {{ (memory_usage.total / (1024 * 1024)) | round | int }}MB)</dd>
-          <div class="mb-2">
-            <div class="progress" style="height: 20px;">
-              <div id="memory-bar" class="progress-bar bg-info" role="progressbar" style="width: {{ memory_usage.percent }}%"></div>
-            </div>
-          </div>
+          <dd>
+            {% include "_memory_usage_bar.html" %}
+            {% include "_memory_usage_card.html" %}
+          </dd>
+
           <dt>Disk</dt>
-          <dd id="disk">{{ disk_usage.percent }}% ({{ (disk_usage.used / (1024 * 1024)) | round | int }}MB / {{ (disk_usage.total / (1024 * 1024)) | round | int }}MB)</dd>
-          <div class="mb-2">
-            <div class="progress" style="height: 20px;">
-              <div id="disk-bar" class="progress-bar bg-info" role="progressbar" style="width: {{ disk_usage.percent }}%"></div>
-            </div>
-          </div>
+          <dd>
+            {% include "_disk_usage_bar.html" %}
+            {% include "_disk_usage_card.html" %}
+          </dd>
+
           <dt>Network</dt>
-          <dd id="network">
-            {% if network_usage %}
-              {% for iface in network_usage.interfaces %}
-                {{ iface.interface }}:
-                ↓ {{ (iface.rx_bps / 1024) | round(1) }} KB/s
-                ↑ {{ (iface.tx_bps / 1024) | round(1) }} KB/s<br>
-              {% endfor %}
-            {% else %}
-              —
-            {% endif %}
+          <dd>
+            {% include "_network_chart.html" %}
+            {% include "_network_usage_card.html" %}
           </dd>
         </dl>
       </div>
     </div>
   </div>
 </div>
-<script>
-  socket.on("ui.system.load.updated", (load) => {
-    const d = document.getElementById("load");
-    d.innerHTML = `${load["load_1m"].toFixed(1)} / ${load["load_5m"].toFixed(1)} / ${load["load_15m"].toFixed(1)}`;
-  });
-
-  socket.on("ui.system.cpu.usage.updated", (cpu) => {
-    document.getElementById("cpu-user-bar").style.width = cpu.user + "%";
-    document.getElementById("cpu-system-bar").style.width = cpu.system + "%";
-    document.getElementById("cpu-iowait-bar").style.width = cpu.iowait + "%";
-    document.getElementById("cpu-idle-bar").style.width = cpu.idle + "%";
-
-    document.getElementById("cpu-user-bar").title = `User ${cpu.user.toFixed(1)}%`;
-    document.getElementById("cpu-system-bar").title = `System ${cpu.system.toFixed(1)}%`;
-    document.getElementById("cpu-iowait-bar").title = `IOWait ${cpu.iowait.toFixed(1)}%`;
-    document.getElementById("cpu-idle-bar").title = `Idle ${cpu.idle.toFixed(1)}%`;
-
-    const iowaitBar = document.getElementById("cpu-iowait-bar");
-    if (cpu.iowait > 20) {
-      iowaitBar.classList.add("progress-bar-striped", "progress-bar-animated");
-    } else {
-      iowaitBar.classList.remove("progress-bar-striped", "progress-bar-animated");
-    }
-  });
-
-  socket.on("ui.system.temperature.updated", (temp) => {
-    const d = document.getElementById("cpu_temp");
-    d.innerHTML = temp.cpu_c;
-  });
-
-  socket.on("ui.system.memory.usage.updated", (mem) => {
-    const d = document.getElementById("memory");
-    d.textContent = `${mem.percent.toFixed(1)}% (${(mem.used/1024**2).toFixed(0)}MB / ${(mem.total/1024**2).toFixed(0)}MB)`;
-
-    document.getElementById("memory-bar").style.width = mem.percent + "%";
-  });
-
-  socket.on("ui.system.disk.usage.updated", (mem) => {
-    const d = document.getElementById("disk");
-    d.textContent = `${mem.percent.toFixed(1)}% (${(mem.used/1024**2).toFixed(0)}MB / ${(mem.total/1024**2).toFixed(0)}MB)`;
-
-    document.getElementById("disk-bar").style.width = mem.percent + "%";
-  });
-
-  socket.on("ui.system.network.usage.updated", (net) => {
-    const d = document.getElementById("network");
-
-    let html = "";
-
-    for (const iface of net.interfaces) {
-      const rx = (iface.rx_bps / 1024).toFixed(1);
-      const tx = (iface.tx_bps / 1024).toFixed(1);
-
-      html += `${iface.interface}: ↓ ${rx} KB/s ↑ ${tx} KB/s<br>`;
-    }
-
-    d.innerHTML = html || "—";
-  });
-</script>
 {% endblock %}

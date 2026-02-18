@@ -1,0 +1,7 @@
+<div id="memory">{{ memory_usage.percent }}% ({{ (memory_usage.used / (1024 * 1024)) | round | int }}MB / {{ (memory_usage.total / (1024 * 1024)) | round | int }}MB)</div>
+<script>
+  socket.on("ui.system.memory.usage.updated", (mem) => {
+    const d = document.getElementById("memory");
+    d.textContent = `${mem.percent.toFixed(1)}% (${(mem.used/1024**2).toFixed(0)}MB / ${(mem.total/1024**2).toFixed(0)}MB)`;
+  });
+</script>

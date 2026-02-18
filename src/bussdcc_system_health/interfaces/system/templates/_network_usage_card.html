@@ -1,0 +1,27 @@
+<div id="network">
+{% if network_usage %}
+  {% for iface in network_usage.interfaces %}
+    {{ iface.interface }}:
+    ↓ {{ (iface.rx_bps / 1024) | round(1) }} KB/s
+    ↑ {{ (iface.tx_bps / 1024) | round(1) }} KB/s<br>
+  {% endfor %}
+{% else %}
+  —
+{% endif %}
+</div>
+<script>
+  socket.on("ui.system.network.usage.updated", (net) => {
+    const d = document.getElementById("network");
+
+    let html = "";
+
+    for (const iface of net.interfaces) {
+      const rx = (iface.rx_bps / 1024).toFixed(1);
+      const tx = (iface.tx_bps / 1024).toFixed(1);
+
+      html += `${iface.interface}: ↓ ${rx} KB/s ↑ ${tx} KB/s<br>`;
+    }
+
+    d.innerHTML = html || "—";
+  });
+</script>

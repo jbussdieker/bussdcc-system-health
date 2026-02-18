@@ -1,0 +1,28 @@
+<div class="mb-2">
+  <div class="progress" style="height: 20px;">
+    <div id="cpu-user-bar" class="progress-bar bg-primary" role="progressbar" style="width: {{ cpu_usage.user }}%"></div>
+    <div id="cpu-system-bar" class="progress-bar bg-warning" role="progressbar" style="width: {{ cpu_usage.system }}%"></div>
+    <div id="cpu-iowait-bar" class="progress-bar bg-danger" role="progressbar" style="width: {{ cpu_usage.iowait }}%"></div>
+    <div id="cpu-idle-bar" class="progress-bar bg-secondary" role="progressbar" style="width: {{ cpu_usage.idle }}%"></div>
+  </div>
+</div>
+<script>
+  socket.on("ui.system.cpu.usage.updated", (cpu) => {
+    document.getElementById("cpu-user-bar").style.width = cpu.user + "%";
+    document.getElementById("cpu-system-bar").style.width = cpu.system + "%";
+    document.getElementById("cpu-iowait-bar").style.width = cpu.iowait + "%";
+    document.getElementById("cpu-idle-bar").style.width = cpu.idle + "%";
+
+    document.getElementById("cpu-user-bar").title = `User ${cpu.user.toFixed(1)}%`;
+    document.getElementById("cpu-system-bar").title = `System ${cpu.system.toFixed(1)}%`;
+    document.getElementById("cpu-iowait-bar").title = `IOWait ${cpu.iowait.toFixed(1)}%`;
+    document.getElementById("cpu-idle-bar").title = `Idle ${cpu.idle.toFixed(1)}%`;
+
+    const iowaitBar = document.getElementById("cpu-iowait-bar");
+    if (cpu.iowait > 20) {
+      iowaitBar.classList.add("progress-bar-striped", "progress-bar-animated");
+    } else {
+      iowaitBar.classList.remove("progress-bar-striped", "progress-bar-animated");
+    }
+  });
+</script>

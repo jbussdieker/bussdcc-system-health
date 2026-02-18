@@ -1,0 +1,68 @@
+<canvas id="networkChart" height="160"></canvas>
+<script>
+  const netCtx = document.getElementById("networkChart");
+  const initialHistory = {{ network_history | tojson }};
+
+  const netChart = new Chart(netCtx, {
+    type: "line",
+    data: {
+      datasets: []
+    },
+    options: {
+      animation: false,
+      parsing: false,
+      scales: {
+        x: {
+          type: "linear",
+          display: false,
+        },
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  for (const [iface, samples] of Object.entries(initialHistory)) {
+    netChart.data.datasets.push({
+      label: iface + " ↓",
+      data: samples.map(s => ({
+        x: s.t * 1000,
+        y: s.rx_bps / 1024
+      }))
+    });
+
+    netChart.data.datasets.push({
+      label: iface + " ↑",
+      data: samples.map(s => ({
+        x: s.t * 1000,
+        y: s.tx_bps / 1024
+      }))
+    });
+  }
+
+  netChart.update();
+
+  socket.on("ui.system.network.usage.updated", (net) => {
+    for (const iface of net.interfaces) {
+      const rxDataset = netChart.data.datasets.find(d => d.label === iface.interface + " ↓");
+      const txDataset = netChart.data.datasets.find(d => d.label === iface.interface + " ↑");
+
+      if (rxDataset) {
+        rxDataset.data.push({
+          x: net.timestamp * 1000,
+          y: iface.rx_bps / 1024
+        });
+      }
+
+      if (txDataset) {
+        txDataset.data.push({
+          x: net.timestamp * 1000,
+          y: iface.tx_bps / 1024
+        });
+      }
+    }
+
+    netChart.update("none");
+  });
+</script>

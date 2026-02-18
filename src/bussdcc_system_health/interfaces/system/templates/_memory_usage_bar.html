@@ -1,0 +1,10 @@
+<div class="mb-2">
+  <div class="progress" style="height: 20px;">
+    <div id="memory-bar" class="progress-bar bg-info" role="progressbar" style="width: {{ memory_usage.percent }}%"></div>
+  </div>
+</div>
+<script>
+  socket.on("ui.system.memory.usage.updated", (mem) => {
+    document.getElementById("memory-bar").style.width = mem.percent + "%";
+  });
+</script>
