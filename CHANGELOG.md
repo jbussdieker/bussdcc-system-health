@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.2.0...v0.3.0) (2026-02-18)
+
+
+### Features
+
+* **cli:** enhance CLI with Click and add new options ([b55205e](https://github.com/jbussdieker/bussdcc-system-health/commit/b55205e54134d2fe58171419a608fb5a1c1032cf))
+* **system-health:** enhance system health interface with new UI components ([5d8866c](https://github.com/jbussdieker/bussdcc-system-health/commit/5d8866caeea93b7fe72d416b0778690935e09c23))
+
 ## [0.2.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.1.1...v0.2.0) (2026-02-18)
 
 
