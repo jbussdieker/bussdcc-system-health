@@ -5,13 +5,13 @@ from flask_bootstrap import Bootstrap5  # type: ignore[import-untyped]
 from bussdcc.context import ContextProtocol
 
 
-class HortusFlask(Flask):
+class SystemHealthFlask(Flask):
     ctx: ContextProtocol
     socketio: SocketIO
 
 
-def create_app(ctx: ContextProtocol) -> HortusFlask:
-    app = HortusFlask(__name__)
+def create_app(ctx: ContextProtocol) -> SystemHealthFlask:
+    app = SystemHealthFlask(__name__)
     Bootstrap5(app)
     app.ctx = ctx
     app.socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")

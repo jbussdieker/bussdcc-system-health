@@ -1,5 +1,7 @@
 import threading
 
+from werkzeug.serving import make_server
+
 from bussdcc.process import Process
 from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
@@ -13,20 +15,31 @@ class WebInterface(Process):
     def start(self, ctx: ContextProtocol) -> None:
         self.app = create_app(ctx)
         self.socketio = self.app.socketio
+
         self._thread = threading.Thread(
             target=self._run,
-            name="flask",
+            name=self.name,
             daemon=True,
         )
+
         self._thread.start()
 
     def _run(self) -> None:
-        self.socketio.run(
-            self.app,
+        self._server = make_server(
             host="0.0.0.0",
             port=8086,
-            allow_unsafe_werkzeug=True,
+            app=self.app,
+            threaded=True,
         )
+
+        self._server.serve_forever()
+
+    def stop(self, ctx: ContextProtocol) -> None:
+        if hasattr(self, "_server"):
+            self._server.shutdown()
+
+        if self._thread:
+            self._thread.join(timeout=5)
 
     def handle_event(self, ctx: ContextProtocol, evt: Event) -> None:
         if evt.name == "system.temperature.updated":

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="col col-6">
+  <div class="col col-4">
     <div class="card mb-3">
       <div class="card-header">Host Information</div>
       <div class="card-body p-2">
@@ -45,10 +45,17 @@
 
           <dt>Network</dt>
           <dd>
-            {% include "_network_chart.html" %}
             {% include "_network_usage_card.html" %}
           </dd>
         </dl>
+      </div>
+    </div>
+  </div>
+  <div class="col col-8">
+    <div class="card mb-3">
+      <div class="card-header">Network Traffic (last 5 min)</div>
+      <div class="card-body p-2">
+        {% include "_network_chart.html" %}
       </div>
     </div>
   </div>
