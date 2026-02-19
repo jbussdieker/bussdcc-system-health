@@ -114,16 +114,52 @@ Updates occur in real time using Socket.IO events emitted directly from the runt
 
 ## Installation
 
-Requires Python 3.11+.
+Requires **Python 3.11+**.
+
+### Standard Install (Recommended)
+
+Install from PyPI:
 
 ```bash
 pip install bussdcc-system-health
 ```
 
-Or install locally:
+Or install locally for development:
 
 ```bash
 pip install -e .
+```
+
+### Linux / Raspberry Pi Setup
+
+On Debian-based systems (including Raspberry Pi OS), install required system packages:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y \
+    python3-pip \
+    python3-flask \
+    python3-psutil \
+    python3-flask-socketio \
+    python3-flask-bootstrap
+```
+
+Then install the application:
+
+```bash
+pip install bussdcc-system-health --break-system-packages
+```
+
+> `--break-system-packages` may be required on newer Debian and Raspberry Pi OS releases due to externally-managed Python environments (PEP 668).
+
+### Optional: Virtual Environment (Alternative)
+
+If you prefer not to use `--break-system-packages`:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install bussdcc-system-health
 ```
 
 ## Running
