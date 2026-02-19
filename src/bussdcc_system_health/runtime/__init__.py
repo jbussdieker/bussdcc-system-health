@@ -1,11 +1,11 @@
 from typing import Optional
 
-from bussdcc import runtime
+from bussdcc.runtime import SignalRuntime
 
 from .. import __version__
 
 
-class Runtime(runtime.SignalRuntime):
+class Runtime(SignalRuntime):
     def boot(self) -> None:
         super().boot()
         self.ctx.events.emit("system_health.booted", version=__version__)

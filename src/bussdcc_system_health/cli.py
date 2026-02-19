@@ -1,11 +1,11 @@
 import click
 
-from .runtime import Runtime
-from .sinks import ConsoleSink, JsonlSink
+from bussdcc.runtime import ConsoleSink, JsonlSink
 
-from .processes import SystemIdentityProcess, SystemStatsProcess
-from .interfaces import SystemWebInterface
-from .services import SystemIdentityService, SystemStatsService
+from .runtime import Runtime
+from .process import SystemIdentityProcess, SystemStatsProcess
+from .interface.web import WebInterface
+from .service import SystemIdentityService, SystemStatsService
 
 
 @click.group()
@@ -19,8 +19,14 @@ def main() -> None:
 @click.option("--record-interval", default=600.0)
 @click.option("--record-path", default="data/history")
 @click.option("--quiet", is_flag=True, default=False)
+@click.option("--web", is_flag=True, default=False)
 def run(
-    interval: float, record: bool, record_interval: float, record_path: str, quiet: bool
+    interval: float,
+    record: bool,
+    record_interval: float,
+    record_path: str,
+    quiet: bool,
+    web: bool,
 ) -> None:
     runtime = Runtime()
 
@@ -33,7 +39,8 @@ def run(
     runtime.register_process(SystemIdentityProcess())
     runtime.register_process(SystemStatsProcess())
 
-    runtime.register_interface(SystemWebInterface())
+    if web:
+        runtime.register_interface(WebInterface())
 
     runtime.register_service(SystemIdentityService())
 

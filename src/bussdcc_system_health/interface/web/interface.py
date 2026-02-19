@@ -7,8 +7,8 @@ from bussdcc.event import Event
 from .factory import create_app
 
 
-class SystemWebInterface(Process):
-    name = "system_web"
+class WebInterface(Process):
+    name = "web"
 
     def start(self, ctx: ContextProtocol) -> None:
         self.app = create_app(ctx)
