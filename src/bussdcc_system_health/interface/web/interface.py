@@ -12,6 +12,11 @@ from .factory import create_app
 class WebInterface(Process):
     name = "web"
 
+    def __init__(self, host: str, port: int) -> None:
+        self._thread: threading.Thread | None = None
+        self.host = host
+        self.port = port
+
     def start(self, ctx: ContextProtocol) -> None:
         self.app = create_app(ctx)
         self.socketio = self.app.socketio
@@ -23,11 +28,12 @@ class WebInterface(Process):
         )
 
         self._thread.start()
+        ctx.events.emit("interface.web.started", host=self.host, port=self.port)
 
     def _run(self) -> None:
         self._server = make_server(
-            host="0.0.0.0",
-            port=8086,
+            host=self.host,
+            port=self.port,
             app=self.app,
             threaded=True,
         )

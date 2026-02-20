@@ -20,6 +20,8 @@ def main() -> None:
 @click.option("--record-path", default="data/history")
 @click.option("--quiet", is_flag=True, default=False)
 @click.option("--web", is_flag=True, default=False)
+@click.option("--web-host", default="127.0.0.1")
+@click.option("--web-port", default=8086)
 def run(
     interval: float,
     record: bool,
@@ -27,6 +29,8 @@ def run(
     record_path: str,
     quiet: bool,
     web: bool,
+    web_host: str,
+    web_port: int,
 ) -> None:
     runtime = Runtime()
 
@@ -40,7 +44,7 @@ def run(
     runtime.register_process(SystemStatsProcess())
 
     if web:
-        runtime.register_interface(WebInterface())
+        runtime.register_interface(WebInterface(web_host, web_port))
 
     runtime.register_service(SystemIdentityService())
 
