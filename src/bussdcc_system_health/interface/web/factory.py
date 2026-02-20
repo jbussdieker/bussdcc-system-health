@@ -1,3 +1,5 @@
+from typing import Any
+
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 from flask_bootstrap import Bootstrap5  # type: ignore[import-untyped]
