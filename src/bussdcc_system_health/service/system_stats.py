@@ -94,7 +94,7 @@ class SystemStatsService(Service):
 
         ctx.events.emit(
             "system.temperature.updated",
-            cpu_c=temp_c,
+            value=temp_c,
         )
 
     def _emit_network_usage(self, ctx: ContextProtocol) -> None:

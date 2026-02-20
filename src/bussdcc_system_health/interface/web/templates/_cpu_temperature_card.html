@@ -1,7 +1,7 @@
-<div id="cpu_temp">{{ system_temperature.cpu_c or "—" }}</div>
+<div id="cpu_temp">{{ system_temperature.value or "—" }}</div>
 <script>
   socket.on("ui.system.temperature.updated", (temp) => {
     const d = document.getElementById("cpu_temp");
-    d.textContent = `${temp.cpu_c.toFixed(1)} °C`;
+    d.textContent = `${temp.value.toFixed(1)} °C`;
   });
 </script>
