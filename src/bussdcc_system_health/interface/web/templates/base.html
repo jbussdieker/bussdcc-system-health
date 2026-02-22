@@ -11,10 +11,11 @@
         {% endblock %}
         {% block scripts %}
             {{ bootstrap.load_js() }}
-            <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
-            <script src="//cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js"></script>
+            <script src="//cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+            <script src="//cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
             <script type="text/javascript" charset="utf-8">
-                // Global runtime event stream connection
+                // Create a single global socket connection
                 var socket = io({
                     // optional: configure auto-reconnect
                     reconnection: true,
@@ -22,36 +23,23 @@
                     reconnectionDelay: 1000,        // start with 1s delay
                     reconnectionDelayMax: 5000      // max delay between attempts
                 });
-
-                // On successful connection
                 socket.on('connect', function() {
                     socket.emit('connected', { data: 'connected!' });
                     console.log("✅ Connected to socket, id:", socket.id);
                 });
-
-                // On disconnect
                 socket.on('disconnect', function(reason) {
                     console.warn("⚠️ Socket disconnected:", reason);
                 });
-
-                // On reconnection attempt
                 socket.on('reconnect_attempt', function(attempt) {
                     console.log(`🔄 Attempting to reconnect (#${attempt})...`);
                 });
-
-                // On successful reconnection
                 socket.on('reconnect', function(attempt) {
                     console.log(`✅ Reconnected to socket after ${attempt} attempts, id: ${socket.id}`);
-                    // Optionally re-emit events to notify server
                     socket.emit('connected', { data: 'reconnected!' });
                 });
-
-                // On reconnection error
                 socket.on('reconnect_error', function(error) {
                     console.error("❌ Reconnection error:", error);
                 });
-
-                // On reconnection failed
                 socket.on('reconnect_failed', function() {
                     console.error("❌ Could not reconnect to socket after multiple attempts");
                 });
@@ -69,7 +57,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="{{ url_for("home") }}">Home</a>
+                  <a class="nav-link {{ "active" if request.blueprint == None }}" aria-current="page" href="{{ url_for("home") }}">Home</a>
                 </li>
               </ul>
             </div>
