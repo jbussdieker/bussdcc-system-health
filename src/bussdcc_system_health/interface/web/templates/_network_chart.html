@@ -1,34 +1,61 @@
 <div class="chart-container">
-  <canvas id="networkChart" height="320"></canvas>
+  <canvas id="networkChart" height="480"></canvas>
 </div>
 <script>
   const netCtx = document.getElementById("networkChart");
   const initialHistory = {{ network_history | tojson }};
 
-  const netChart = new Chart(netCtx, {
-    type: "line",
-    data: {
-      datasets: []
-    },
-    options: {
-      maintainAspectRatio: false,
-      animation: false,
-      parsing: false,
-      scales: {
-        x: {
-          type: "linear",
-          display: false,
+  const netChart = new Chart(
+    document.getElementById("networkChart"),
+    {
+      type: "line",
+      data: {
+        datasets: []
+      },
+      options: {
+        responsive: true,
+        animation: false,
+        maintainAspectRatio: false,
+        parsing: false,
+        scales: {
+          x: {
+            type: "timeseries",
+            display: true,
+            title: {
+              display: true,
+              text: "Time"
+            }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { callback: v => v + ' KB/s' },
+            title: {
+              display: true,
+              text: "Transfer Rate"
+            }
+          },
         },
-        y: {
-          beginAtZero: true
+        interaction: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            display: true
+          },
+          tooltip: {
+            mode: 'index',
+          }
         }
       }
     }
-  });
+  );
 
   for (const [iface, samples] of Object.entries(initialHistory)) {
     netChart.data.datasets.push({
       label: iface + " ↓",
+      pointRadius: 0,
       data: samples.map(s => ({
         x: s.t * 1000,
         y: s.rx_bps / 1024
@@ -37,6 +64,7 @@
 
     netChart.data.datasets.push({
       label: iface + " ↑",
+      pointRadius: 0,
       data: samples.map(s => ({
         x: s.t * 1000,
         y: s.tx_bps / 1024

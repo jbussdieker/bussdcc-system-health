@@ -7,7 +7,6 @@ from bussdcc.context import ContextProtocol
 
 class SystemIdentityService(Service):
     name = "system_identity"
-    interval = 5.0
 
     def start(self, ctx: ContextProtocol) -> None:
         hostname = socket.gethostname()
@@ -15,10 +14,7 @@ class SystemIdentityService(Service):
         serial = self._cpuinfo_field("Serial")
 
         ctx.events.emit(
-            "system.identity",
-            hostname=hostname,
-            model=model,
-            serial=serial,
+            "system.identity", hostname=hostname, model=model, serial=serial
         )
 
     def _read(self, path: str) -> str | None:
