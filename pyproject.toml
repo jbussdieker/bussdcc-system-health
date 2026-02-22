@@ -4,12 +4,11 @@ dynamic = [
     "version",
 ]
 dependencies = [
-    "bussdcc==0.22.0",
-    "smbus2",
-    "psutil",
-    "flask",
-    "flask-socketio",
-    "bootstrap-flask",
+    "bussdcc==0.22.1",
+    "flask>=3.1",
+    "flask-socketio>=5.6",
+    "bootstrap-flask==2.5.0",
+    "psutil>=7.2",
 ]
 description = "bussdcc-system-health"
 readme = "README.md"
@@ -22,6 +21,7 @@ maintainers = [
 ]
 classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
     "Development Status :: 2 - Pre-Alpha",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
