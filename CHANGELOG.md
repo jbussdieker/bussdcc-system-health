@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.5.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.4.0...v0.5.0) (2026-02-22)
+
+
+### Features
+
+* **interface, service:** update network chart and remove interval from system identity ([6e4e711](https://github.com/jbussdieker/bussdcc-system-health/commit/6e4e711bf0efdc41e739823a2f060769a19fd038))
+* **interface:** enhance web interface with updated scripts and styles ([d4f930d](https://github.com/jbussdieker/bussdcc-system-health/commit/d4f930df80153ec8360ea1a33114e3330e06523e))
+* **makefile:** add run target for system health service ([b287da5](https://github.com/jbussdieker/bussdcc-system-health/commit/b287da5c79f156d668acb61895b28a4e4bbd535d))
+* **systemd:** add quiet mode to service execution ([fa57e43](https://github.com/jbussdieker/bussdcc-system-health/commit/fa57e43f1ac3cebabe9f295eae08a87c6926b2a7))
+* **systemd:** update service to support web options ([6e72207](https://github.com/jbussdieker/bussdcc-system-health/commit/6e72207e868ea7e72e4bdb87b561be58ec2873ae))
+* **web, cli:** add configurable web host and port options ([a200aa0](https://github.com/jbussdieker/bussdcc-system-health/commit/a200aa036ffca7fcd24c332b55cab8786192d020))
+
+
+### Bug Fixes
+
+* **web:** add typing support to web factory ([35ee9e2](https://github.com/jbussdieker/bussdcc-system-health/commit/35ee9e2b71e0b5dbe95c00f2a911097855694d13))
+
+
+### Documentation
+
+* **readme:** update installation instructions for Linux/Raspberry Pi ([ddcb761](https://github.com/jbussdieker/bussdcc-system-health/commit/ddcb761b128e1cb481fbfd172e87a167da187ac4))
+
 ## [0.4.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.3.1...v0.4.0) (2026-02-19)
 
 
