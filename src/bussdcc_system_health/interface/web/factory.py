@@ -1,22 +1,21 @@
 from typing import Any
 
-from flask import Flask, render_template
+from flask import render_template
 from flask_socketio import SocketIO
 from flask_bootstrap import Bootstrap5  # type: ignore[import-untyped]
 
 from bussdcc.context import ContextProtocol
 
-
-class SystemHealthFlask(Flask):
-    ctx: ContextProtocol
-    socketio: SocketIO
+from .base import SystemHealthFlask
 
 
 def create_app(ctx: ContextProtocol) -> SystemHealthFlask:
     app = SystemHealthFlask(__name__)
     Bootstrap5(app)
+    socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
+
     app.ctx = ctx
-    app.socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
+    app.socketio = socketio
 
     @app.context_processor
     def get_context() -> dict[str, Any]:

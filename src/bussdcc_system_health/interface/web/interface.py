@@ -20,13 +20,11 @@ class WebInterface(Process):
     def start(self, ctx: ContextProtocol) -> None:
         self.app = create_app(ctx)
         self.socketio = self.app.socketio
-
         self._thread = threading.Thread(
             target=self._run,
             name=self.name,
             daemon=True,
         )
-
         self._thread.start()
         ctx.events.emit("interface.web.started", host=self.host, port=self.port)
 
