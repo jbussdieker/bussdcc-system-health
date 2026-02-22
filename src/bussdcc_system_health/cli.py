@@ -3,9 +3,7 @@ import click
 from bussdcc.runtime import ConsoleSink, JsonlSink
 
 from .runtime import Runtime
-from .process import SystemIdentityProcess, SystemStatsProcess
-from .interface.web import WebInterface
-from .service import SystemIdentityService, SystemStatsService
+from . import process, interface, service
 
 
 @click.group()
@@ -14,7 +12,7 @@ def main() -> None:
 
 
 @main.command()
-@click.option("--interval", default=5.0)
+@click.option("--stats-interval", default=5.0)
 @click.option("--record", is_flag=True, default=False)
 @click.option("--record-interval", default=600.0)
 @click.option("--record-path", default="data/history")
@@ -23,7 +21,7 @@ def main() -> None:
 @click.option("--web-host", default="127.0.0.1")
 @click.option("--web-port", default=8086)
 def run(
-    interval: float,
+    stats_interval: float,
     record: bool,
     record_interval: float,
     record_path: str,
@@ -40,16 +38,13 @@ def run(
     if record:
         runtime.add_sink(JsonlSink(root=record_path, interval=record_interval))
 
-    runtime.register_process(SystemIdentityProcess())
-    runtime.register_process(SystemStatsProcess())
+    runtime.register_process(process.SystemIdentityProcess())
+    runtime.register_process(process.SystemStatsProcess())
 
     if web:
-        runtime.register_interface(WebInterface(web_host, web_port))
+        runtime.register_interface(interface.WebInterface(web_host, web_port))
 
-    runtime.register_service(SystemIdentityService())
-
-    system_stats = SystemStatsService()
-    system_stats.interval = interval
-    runtime.register_service(system_stats)
+    runtime.register_service(service.SystemIdentityService())
+    runtime.register_service(service.SystemStatsService(stats_interval))
 
     runtime.run()

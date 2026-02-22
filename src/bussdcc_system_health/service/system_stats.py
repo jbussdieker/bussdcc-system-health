@@ -13,10 +13,11 @@ class SystemStatsService(Service):
     name = "system_stats"
     interval = 5.0
 
-    def __init__(self) -> None:
+    def __init__(self, interval: float = 5.0) -> None:
         self._prev_stat: Optional[dict[str, int]] = None
         self._prev_net: Optional[Mapping[str, Any]] = None
         self._prev_net_time: Optional[float] = None
+        self.interval = interval
 
     def tick(self, ctx: ContextProtocol) -> None:
         self._emit_memory_usage(ctx)
