@@ -10,8 +10,8 @@ class SystemIdentityProcess(Process):
         if evt.name == "runtime.booted":
             ctx.state.set("runtime.version", evt.data["version"])
 
-        elif evt.name == "system_health.booted":
-            ctx.state.set("system_health.version", evt.data["version"])
+        elif evt.name == "app.booted":
+            ctx.state.set("app.version", evt.data["version"])
 
         elif evt.name == "system.identity":
             ctx.state.set("system.identity", evt.data)

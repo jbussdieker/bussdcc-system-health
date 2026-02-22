@@ -22,7 +22,7 @@ def create_app(ctx: ContextProtocol) -> SystemHealthFlask:
     def get_context() -> dict[str, Any]:
         system_identity = ctx.state.get("system.identity")
         runtime_version = ctx.state.get("runtime.version")
-        app_version = ctx.state.get("system_health.version")
+        app_version = ctx.state.get("app.version")
         cpu_usage = ctx.state.get("system.cpu.usage")
         memory_usage = ctx.state.get("system.memory.usage")
         disk_usage = ctx.state.get("system.disk.usage")
