@@ -7,15 +7,7 @@ from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
 
 from .factory import create_app
-from ...events import (
-    WebInterfaceStarted,
-    TemperatureUpdate,
-    LoadAverageUpdate,
-    MemoryUsageUpdate,
-    CPUUsageUpdate,
-    NetworkUsageUpdate,
-    DiskUsageUpdate,
-)
+from ... import events
 
 
 class WebInterface(Process):
@@ -35,7 +27,7 @@ class WebInterface(Process):
             daemon=True,
         )
         self._thread.start()
-        ctx.emit(WebInterfaceStarted(host=self.host, port=self.port))
+        ctx.emit(events.WebInterfaceStarted(host=self.host, port=self.port))
 
     def _run(self) -> None:
         self._server = make_server(
@@ -57,17 +49,17 @@ class WebInterface(Process):
     def handle_event(self, ctx: ContextProtocol, evt: Event[object]) -> None:
         payload = evt.payload
 
-        if isinstance(payload, TemperatureUpdate):
+        if isinstance(payload, events.TemperatureUpdate):
             self.socketio.emit("ui.system.temperature.updated", payload.to_dict())
-        elif isinstance(payload, LoadAverageUpdate):
+        elif isinstance(payload, events.LoadAverageUpdate):
             self.socketio.emit("ui.system.load.updated", payload.to_dict())
-        elif isinstance(payload, MemoryUsageUpdate):
+        elif isinstance(payload, events.MemoryUsageUpdate):
             self.socketio.emit("ui.system.memory.usage.updated", payload.to_dict())
-        elif isinstance(payload, CPUUsageUpdate):
+        elif isinstance(payload, events.CPUUsageUpdate):
             self.socketio.emit("ui.system.cpu.usage.updated", payload.to_dict())
-        elif isinstance(payload, DiskUsageUpdate):
+        elif isinstance(payload, events.DiskUsageUpdate):
             self.socketio.emit("ui.system.disk.usage.updated", payload.to_dict())
-        elif isinstance(payload, NetworkUsageUpdate):
+        elif isinstance(payload, events.NetworkUsageUpdate):
             self.socketio.emit(
                 "ui.system.network.usage.updated",
                 {"timestamp": evt.time.timestamp(), **payload.to_dict()},

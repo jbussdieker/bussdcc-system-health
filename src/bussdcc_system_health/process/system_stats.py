@@ -4,14 +4,7 @@ from bussdcc.process import Process
 from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
 
-from ..events import (
-    MemoryUsageUpdate,
-    DiskUsageUpdate,
-    TemperatureUpdate,
-    LoadAverageUpdate,
-    CPUUsageUpdate,
-    NetworkUsageUpdate,
-)
+from .. import events
 
 
 class SystemStatsProcess(Process):
@@ -25,22 +18,22 @@ class SystemStatsProcess(Process):
     def handle_event(self, ctx: ContextProtocol, evt: Event[object]) -> None:
         payload = evt.payload
 
-        if isinstance(payload, TemperatureUpdate):
+        if isinstance(payload, events.TemperatureUpdate):
             ctx.state.set("system.temperature", payload)
 
-        if isinstance(payload, MemoryUsageUpdate):
+        if isinstance(payload, events.MemoryUsageUpdate):
             ctx.state.set("system.memory.usage", payload)
 
-        elif isinstance(payload, DiskUsageUpdate):
+        elif isinstance(payload, events.DiskUsageUpdate):
             ctx.state.set("system.disk.usage", payload)
 
-        elif isinstance(payload, LoadAverageUpdate):
+        elif isinstance(payload, events.LoadAverageUpdate):
             ctx.state.set("system.load", payload)
 
-        elif isinstance(payload, CPUUsageUpdate):
+        elif isinstance(payload, events.CPUUsageUpdate):
             ctx.state.set("system.cpu.usage", payload)
 
-        elif isinstance(payload, NetworkUsageUpdate):
+        elif isinstance(payload, events.NetworkUsageUpdate):
             ctx.state.set("system.network.usage", payload)
 
             if not evt.time:

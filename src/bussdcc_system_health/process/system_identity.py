@@ -3,7 +3,7 @@ from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
 from bussdcc.events import RuntimeBooted
 
-from ..events import AppBooted, SystemIdentityEvent
+from .. import events
 
 
 class SystemIdentityProcess(Process):
@@ -15,8 +15,8 @@ class SystemIdentityProcess(Process):
         if isinstance(payload, RuntimeBooted):
             ctx.state.set("runtime.version", payload.version)
 
-        elif isinstance(payload, AppBooted):
+        elif isinstance(payload, events.AppBooted):
             ctx.state.set("app.version", payload.version)
 
-        elif isinstance(payload, SystemIdentityEvent):
+        elif isinstance(payload, events.SystemIdentityEvent):
             ctx.state.set("system.identity", payload)
