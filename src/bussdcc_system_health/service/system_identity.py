@@ -4,6 +4,8 @@ from pathlib import Path
 from bussdcc.service import Service
 from bussdcc.context import ContextProtocol
 
+from ..events import SystemIdentityEvent
+
 
 class SystemIdentityService(Service):
     name = "system_identity"
@@ -13,9 +15,7 @@ class SystemIdentityService(Service):
         model = self._read("/proc/device-tree/model")
         serial = self._cpuinfo_field("Serial")
 
-        ctx.events.emit(
-            "system.identity", hostname=hostname, model=model, serial=serial
-        )
+        ctx.emit(SystemIdentityEvent(hostname=hostname, model=model, serial=serial))
 
     def _read(self, path: str) -> str | None:
         try:

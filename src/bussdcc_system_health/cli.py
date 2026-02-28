@@ -1,8 +1,6 @@
 import click
 
-from bussdcc.runtime import ConsoleSink, JsonlSink
-
-from .runtime import Runtime
+from .runtime import sink, Runtime
 from . import process, interface, service
 
 
@@ -33,10 +31,10 @@ def run(
     runtime = Runtime()
 
     if not quiet:
-        runtime.add_sink(ConsoleSink())
+        runtime.add_sink(sink.ConsoleSink())
 
     if record:
-        runtime.add_sink(JsonlSink(root=record_path, interval=record_interval))
+        runtime.add_sink(sink.JsonlSink(root=record_path, interval=record_interval))
 
     runtime.register_process(process.SystemIdentityProcess())
     runtime.register_process(process.SystemStatsProcess())

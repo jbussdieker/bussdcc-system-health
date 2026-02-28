@@ -8,6 +8,16 @@ import psutil
 from bussdcc.context import ContextProtocol
 from bussdcc.service import Service
 
+from ..events import (
+    MemoryUsageUpdate,
+    DiskUsageUpdate,
+    TemperatureUpdate,
+    LoadAverageUpdate,
+    CPUUsageUpdate,
+    NetworkUsageUpdate,
+    InterfaceUsage,
+)
+
 
 class SystemStatsService(Service):
     name = "system_stats"
@@ -29,12 +39,13 @@ class SystemStatsService(Service):
 
     def _emit_memory_usage(self, ctx: ContextProtocol) -> None:
         mem = psutil.virtual_memory()
-        ctx.events.emit(
-            "system.memory.usage.updated",
-            total=mem.total,
-            used=mem.used,
-            available=mem.available,
-            percent=mem.percent,
+        ctx.emit(
+            MemoryUsageUpdate(
+                total=mem.total,
+                used=mem.used,
+                available=mem.available,
+                percent=mem.percent,
+            )
         )
 
     def _emit_cpu_usage(self, ctx: ContextProtocol) -> None:
@@ -54,23 +65,25 @@ class SystemStatsService(Service):
         if total == 0:
             return
 
-        ctx.events.emit(
-            "system.cpu.usage.updated",
-            user=round(delta["user"] / total * 100, 1),
-            system=round(delta["system"] / total * 100, 1),
-            iowait=round(delta["iowait"] / total * 100, 1),
-            idle=round(delta["idle"] / total * 100, 1),
+        ctx.emit(
+            CPUUsageUpdate(
+                user=round(delta["user"] / total * 100, 1),
+                system=round(delta["system"] / total * 100, 1),
+                iowait=round(delta["iowait"] / total * 100, 1),
+                idle=round(delta["idle"] / total * 100, 1),
+            )
         )
 
     def _emit_load_average(self, ctx: ContextProtocol) -> None:
         load1, load5, load15 = os.getloadavg()
         cores = os.cpu_count() or 1
 
-        ctx.events.emit(
-            "system.load.updated",
-            load_1m=round(load1 / cores, 1),
-            load_5m=round(load5 / cores, 1),
-            load_15m=round(load15 / cores, 1),
+        ctx.emit(
+            LoadAverageUpdate(
+                load_1m=round(load1 / cores, 1),
+                load_5m=round(load5 / cores, 1),
+                load_15m=round(load15 / cores, 1),
+            )
         )
 
     def _emit_disk_usage(self, ctx: ContextProtocol) -> None:
@@ -79,13 +92,14 @@ class SystemStatsService(Service):
         except Exception:
             return
 
-        ctx.events.emit(
-            "system.disk.usage.updated",
-            mountpoint="/",
-            total=disk.total,
-            used=disk.used,
-            free=disk.free,
-            percent=disk.percent,
+        ctx.emit(
+            DiskUsageUpdate(
+                mountpoint="/",
+                total=disk.total,
+                used=disk.used,
+                free=disk.free,
+                percent=disk.percent,
+            )
         )
 
     def _emit_temperature(self, ctx: ContextProtocol) -> None:
@@ -93,9 +107,10 @@ class SystemStatsService(Service):
         if temp_c is None:
             return
 
-        ctx.events.emit(
-            "system.temperature.updated",
-            value=temp_c,
+        ctx.emit(
+            TemperatureUpdate(
+                value=temp_c,
+            )
         )
 
     def _emit_network_usage(self, ctx: ContextProtocol) -> None:
@@ -127,11 +142,11 @@ class SystemStatsService(Service):
                 continue
 
             interfaces.append(
-                {
-                    "interface": name,
-                    "tx_bps": int(tx_rate),
-                    "rx_bps": int(rx_rate),
-                }
+                InterfaceUsage(
+                    interface=name,
+                    tx_bps=int(tx_rate),
+                    rx_bps=int(rx_rate),
+                )
             )
 
         self._prev_net = counters
@@ -140,10 +155,7 @@ class SystemStatsService(Service):
         if not interfaces:
             return
 
-        ctx.events.emit(
-            "system.network.usage.updated",
-            interfaces=interfaces,
-        )
+        ctx.emit(NetworkUsageUpdate(interfaces=interfaces))
 
     def _stat(self) -> Optional[dict[str, int]]:
         try:

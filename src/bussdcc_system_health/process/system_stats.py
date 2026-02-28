@@ -4,6 +4,15 @@ from bussdcc.process import Process
 from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
 
+from ..events import (
+    MemoryUsageUpdate,
+    DiskUsageUpdate,
+    TemperatureUpdate,
+    LoadAverageUpdate,
+    CPUUsageUpdate,
+    NetworkUsageUpdate,
+)
+
 
 class SystemStatsProcess(Process):
     name = "system_stats"
@@ -13,40 +22,42 @@ class SystemStatsProcess(Process):
     def start(self, ctx: ContextProtocol) -> None:
         self._net_history: dict[str, deque[dict[str, float | int]]] = {}
 
-    def handle_event(self, ctx: ContextProtocol, evt: Event) -> None:
-        if evt.name == "system.temperature.updated":
-            ctx.state.set("system.temperature", evt.data)
+    def handle_event(self, ctx: ContextProtocol, evt: Event[object]) -> None:
+        payload = evt.payload
 
-        elif evt.name == "system.load.updated":
-            ctx.state.set("system.load", evt.data)
+        if isinstance(payload, TemperatureUpdate):
+            ctx.state.set("system.temperature", payload)
 
-        elif evt.name == "system.cpu.usage.updated":
-            ctx.state.set("system.cpu.usage", evt.data)
+        if isinstance(payload, MemoryUsageUpdate):
+            ctx.state.set("system.memory.usage", payload)
 
-        elif evt.name == "system.memory.usage.updated":
-            ctx.state.set("system.memory.usage", evt.data)
+        elif isinstance(payload, DiskUsageUpdate):
+            ctx.state.set("system.disk.usage", payload)
 
-        elif evt.name == "system.disk.usage.updated":
-            ctx.state.set("system.disk.usage", evt.data)
+        elif isinstance(payload, LoadAverageUpdate):
+            ctx.state.set("system.load", payload)
 
-        elif evt.name == "system.network.usage.updated":
+        elif isinstance(payload, CPUUsageUpdate):
+            ctx.state.set("system.cpu.usage", payload)
+
+        elif isinstance(payload, NetworkUsageUpdate):
+            ctx.state.set("system.network.usage", payload)
+
             if not evt.time:
                 return
 
             now = evt.time.timestamp()
 
-            ctx.state.set("system.network.usage", evt.data)
-
-            for iface in evt.data.get("interfaces", []):
-                name = iface["interface"]
+            for iface in payload.interfaces:
+                name = iface.interface
 
                 history = self._net_history.setdefault(name, deque())
 
                 history.append(
                     {
                         "t": now,
-                        "rx_bps": iface["rx_bps"],
-                        "tx_bps": iface["tx_bps"],
+                        "rx_bps": iface.rx_bps,
+                        "tx_bps": iface.tx_bps,
                     }
                 )
 

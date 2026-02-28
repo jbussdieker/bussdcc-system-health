@@ -7,6 +7,15 @@ from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
 
 from .factory import create_app
+from ...events import (
+    WebInterfaceStarted,
+    TemperatureUpdate,
+    LoadAverageUpdate,
+    MemoryUsageUpdate,
+    CPUUsageUpdate,
+    NetworkUsageUpdate,
+    DiskUsageUpdate,
+)
 
 
 class WebInterface(Process):
@@ -26,7 +35,7 @@ class WebInterface(Process):
             daemon=True,
         )
         self._thread.start()
-        ctx.events.emit("interface.web.started", host=self.host, port=self.port)
+        ctx.emit(WebInterfaceStarted(host=self.host, port=self.port))
 
     def _run(self) -> None:
         self._server = make_server(
@@ -45,19 +54,21 @@ class WebInterface(Process):
         if self._thread:
             self._thread.join(timeout=5)
 
-    def handle_event(self, ctx: ContextProtocol, evt: Event) -> None:
-        if evt.name == "system.temperature.updated":
-            self.socketio.emit("ui.system.temperature.updated", evt.data)
-        elif evt.name == "system.load.updated":
-            self.socketio.emit("ui.system.load.updated", evt.data)
-        elif evt.name == "system.memory.usage.updated":
-            self.socketio.emit("ui.system.memory.usage.updated", evt.data)
-        elif evt.name == "system.cpu.usage.updated":
-            self.socketio.emit("ui.system.cpu.usage.updated", evt.data)
-        elif evt.name == "system.disk.usage.updated":
-            self.socketio.emit("ui.system.disk.usage.updated", evt.data)
-        elif evt.name == "system.network.usage.updated":
+    def handle_event(self, ctx: ContextProtocol, evt: Event[object]) -> None:
+        payload = evt.payload
+
+        if isinstance(payload, TemperatureUpdate):
+            self.socketio.emit("ui.system.temperature.updated", payload.to_dict())
+        elif isinstance(payload, LoadAverageUpdate):
+            self.socketio.emit("ui.system.load.updated", payload.to_dict())
+        elif isinstance(payload, MemoryUsageUpdate):
+            self.socketio.emit("ui.system.memory.usage.updated", payload.to_dict())
+        elif isinstance(payload, CPUUsageUpdate):
+            self.socketio.emit("ui.system.cpu.usage.updated", payload.to_dict())
+        elif isinstance(payload, DiskUsageUpdate):
+            self.socketio.emit("ui.system.disk.usage.updated", payload.to_dict())
+        elif isinstance(payload, NetworkUsageUpdate):
             self.socketio.emit(
                 "ui.system.network.usage.updated",
-                {"timestamp": evt.time.timestamp(), **evt.data},
+                {"timestamp": evt.time.timestamp(), **payload.to_dict()},
             )
