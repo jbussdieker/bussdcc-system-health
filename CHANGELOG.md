@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.5.0...v0.6.0) (2026-02-28)
+
+
+### Features
+
+* **runtime, events:** refactor event handling and add new event schemas ([7e85ec6](https://github.com/jbussdieker/bussdcc-system-health/commit/7e85ec6918496774d1de94d0de839159363187f0))
+
 ## [0.5.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.4.0...v0.5.0) (2026-02-22)
 
 
