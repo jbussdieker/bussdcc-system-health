@@ -1,6 +1,9 @@
 import click
 
-from .runtime import sink, Runtime
+from bussdcc_framework.runtime import sink, Runtime
+from bussdcc_framework import process as framework_process
+from bussdcc_framework import service as framework_service
+
 from . import process, interface, service
 
 
@@ -36,13 +39,13 @@ def run(
     if record:
         runtime.add_sink(sink.JsonlSink(root=record_path, interval=record_interval))
 
-    runtime.register_process(process.SystemIdentityProcess())
+    runtime.register_process(framework_process.SystemIdentityProcess())
     runtime.register_process(process.SystemStatsProcess())
 
     if web:
         runtime.register_interface(interface.WebInterface(web_host, web_port))
 
-    runtime.register_service(service.SystemIdentityService())
+    runtime.register_service(framework_service.SystemIdentityService())
     runtime.register_service(service.SystemStatsService(stats_interval))
 
     runtime.run()

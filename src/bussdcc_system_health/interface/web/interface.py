@@ -1,50 +1,50 @@
-import threading
+from typing import Any
+from flask import render_template
+from flask_socketio import SocketIO
 
-from werkzeug.serving import make_server
-
-from bussdcc.process import Process
 from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
 
-from .factory import create_app
+from bussdcc_framework.interface import web
+from bussdcc_framework.interface.web.base import FlaskApp
+
 from ... import events
+from ...version import __version__ as app_version
 
 
-class WebInterface(Process):
-    name = "web"
-
+class WebInterface(web.WebInterface):
     def __init__(self, host: str, port: int) -> None:
-        self._thread: threading.Thread | None = None
-        self.host = host
-        self.port = port
+        super().__init__(__name__, host=host, port=port)
 
-    def start(self, ctx: ContextProtocol) -> None:
-        self.app = create_app(ctx)
-        self.socketio = self.app.socketio
-        self._thread = threading.Thread(
-            target=self._run,
-            name=self.name,
-            daemon=True,
-        )
-        self._thread.start()
-        ctx.emit(events.WebInterfaceStarted(host=self.host, port=self.port))
+    def register_routes(self, app: FlaskApp, ctx: ContextProtocol) -> None:
 
-    def _run(self) -> None:
-        self._server = make_server(
-            host=self.host,
-            port=self.port,
-            app=self.app,
-            threaded=True,
-        )
+        @app.context_processor
+        def get_context() -> dict[str, Any]:
+            cpu_usage = ctx.state.get("system.cpu.usage")
+            memory_usage = ctx.state.get("system.memory.usage")
+            disk_usage = ctx.state.get("system.disk.usage")
+            load = ctx.state.get("system.load")
+            network_usage = ctx.state.get("system.network.usage")
+            network_history = ctx.state.get("system.network.history", {})
+            system_temperature = ctx.state.get("system.temperature")
 
-        self._server.serve_forever()
+            return dict(
+                app_version=app_version,
+                cpu_usage=cpu_usage,
+                memory_usage=memory_usage,
+                disk_usage=disk_usage,
+                load=load,
+                network_usage=network_usage,
+                network_history=network_history,
+                system_temperature=system_temperature,
+            )
 
-    def stop(self, ctx: ContextProtocol) -> None:
-        if hasattr(self, "_server"):
-            self._server.shutdown()
+        @app.route("/")
+        def home() -> str:
+            return render_template("home.html")
 
-        if self._thread:
-            self._thread.join(timeout=5)
+    def register_socketio(self, socketio: SocketIO, ctx: ContextProtocol) -> None:
+        pass
 
     def handle_event(self, ctx: ContextProtocol, evt: Event[object]) -> None:
         payload = evt.payload

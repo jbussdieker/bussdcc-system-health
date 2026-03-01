@@ -5,9 +5,7 @@ dynamic = [
 ]
 dependencies = [
     "bussdcc==0.23.0",
-    "flask>=3.1",
-    "flask-socketio>=5.6",
-    "bootstrap-flask==2.5.0",
+    "bussdcc-framework==0.2.2",
     "psutil>=7.2",
 ]
 description = "bussdcc-system-health"
@@ -20,7 +18,6 @@ maintainers = [
     { name = "Joshua B. Bussdieker", email = "jbussdieker@gmail.com" },
 ]
 classifiers = [
-    "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: System :: Monitoring",
     "Development Status :: 2 - Pre-Alpha",
     "Programming Language :: Python :: 3",
@@ -43,7 +40,6 @@ bussdcc-system-health = "bussdcc_system_health.cli:main"
 
 [project.optional-dependencies]
 dev = [
-    "types-Flask-SocketIO",
     "types-psutil",
 ]
 
