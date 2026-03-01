@@ -4,6 +4,7 @@ from flask_socketio import SocketIO
 
 from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
+from bussdcc.events import EventSchema
 
 from bussdcc_framework.interface import web
 from bussdcc_framework.interface.web.base import FlaskApp
@@ -46,7 +47,7 @@ class WebInterface(web.WebInterface):
     def register_socketio(self, socketio: SocketIO, ctx: ContextProtocol) -> None:
         pass
 
-    def handle_event(self, ctx: ContextProtocol, evt: Event[object]) -> None:
+    def handle_event(self, ctx: ContextProtocol, evt: Event[EventSchema]) -> None:
         payload = evt.payload
 
         if isinstance(payload, events.TemperatureUpdate):

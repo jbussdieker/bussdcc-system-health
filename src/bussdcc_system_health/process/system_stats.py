@@ -3,6 +3,7 @@ from collections import deque
 from bussdcc.process import Process
 from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
+from bussdcc.events import EventSchema
 
 from .. import events
 
@@ -15,7 +16,7 @@ class SystemStatsProcess(Process):
     def start(self, ctx: ContextProtocol) -> None:
         self._net_history: dict[str, deque[dict[str, float | int]]] = {}
 
-    def handle_event(self, ctx: ContextProtocol, evt: Event[object]) -> None:
+    def handle_event(self, ctx: ContextProtocol, evt: Event[EventSchema]) -> None:
         payload = evt.payload
 
         if isinstance(payload, events.TemperatureUpdate):
