@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.6.0...v0.7.0) (2026-03-01)
+
+
+### Features
+
+* **system-health:** integrate bussdcc-framework and remove deprecated components ([dfb46ef](https://github.com/jbussdieker/bussdcc-system-health/commit/dfb46ef34b6c8e6ad772341c39df78192253c384))
+
 ## [0.6.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.5.0...v0.6.0) (2026-02-28)
 
 
