@@ -41,6 +41,7 @@ bussdcc-system-health = "bussdcc_system_health.cli:main"
 [project.optional-dependencies]
 dev = [
     "types-psutil",
+    "bussdcc-framework[dev]==0.2.2",
 ]
 
 [project.urls]
