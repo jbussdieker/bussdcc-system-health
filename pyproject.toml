@@ -4,8 +4,7 @@ dynamic = [
     "version",
 ]
 dependencies = [
-    "bussdcc==0.25.0",
-    "bussdcc-framework==0.3.0",
+    "bussdcc-framework==0.4.0",
     "psutil>=7.2",
 ]
 description = "bussdcc-system-health"
@@ -41,7 +40,7 @@ bussdcc-system-health = "bussdcc_system_health.cli:main"
 [project.optional-dependencies]
 dev = [
     "types-psutil",
-    "bussdcc-framework[dev]==0.3.0",
+    "bussdcc-framework[dev]==0.4.0",
 ]
 
 [project.urls]

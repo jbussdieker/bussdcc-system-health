@@ -8,7 +8,7 @@ import psutil
 from bussdcc.context import ContextProtocol
 from bussdcc.service import Service
 
-from .. import events
+from .. import message
 
 
 class SystemStatsService(Service):
@@ -32,7 +32,7 @@ class SystemStatsService(Service):
     def _emit_memory_usage(self, ctx: ContextProtocol) -> None:
         mem = psutil.virtual_memory()
         ctx.emit(
-            events.MemoryUsageUpdate(
+            message.MemoryUsageUpdate(
                 total=mem.total,
                 used=mem.used,
                 available=mem.available,
@@ -58,7 +58,7 @@ class SystemStatsService(Service):
             return
 
         ctx.emit(
-            events.CPUUsageUpdate(
+            message.CPUUsageUpdate(
                 user=round(delta["user"] / total * 100, 1),
                 system=round(delta["system"] / total * 100, 1),
                 iowait=round(delta["iowait"] / total * 100, 1),
@@ -71,7 +71,7 @@ class SystemStatsService(Service):
         cores = os.cpu_count() or 1
 
         ctx.emit(
-            events.LoadAverageUpdate(
+            message.LoadAverageUpdate(
                 load_1m=round(load1 / cores, 1),
                 load_5m=round(load5 / cores, 1),
                 load_15m=round(load15 / cores, 1),
@@ -85,7 +85,7 @@ class SystemStatsService(Service):
             return
 
         ctx.emit(
-            events.DiskUsageUpdate(
+            message.DiskUsageUpdate(
                 mountpoint="/",
                 total=disk.total,
                 used=disk.used,
@@ -100,7 +100,7 @@ class SystemStatsService(Service):
             return
 
         ctx.emit(
-            events.TemperatureUpdate(
+            message.TemperatureUpdate(
                 value=temp_c,
             )
         )
@@ -134,7 +134,7 @@ class SystemStatsService(Service):
                 continue
 
             interfaces.append(
-                events.InterfaceUsage(
+                message.InterfaceUsage(
                     interface=name,
                     tx_bps=int(tx_rate),
                     rx_bps=int(rx_rate),
@@ -147,7 +147,7 @@ class SystemStatsService(Service):
         if not interfaces:
             return
 
-        ctx.emit(events.NetworkUsageUpdate(interfaces=interfaces))
+        ctx.emit(message.NetworkUsageUpdate(interfaces=interfaces))
 
     def _stat(self) -> Optional[dict[str, int]]:
         try:

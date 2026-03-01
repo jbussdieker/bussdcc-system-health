@@ -1,9 +1,9 @@
 .PHONY: setup check typecheck lint format clean
 
-run:
-	.venv/bin/bussdcc-system-health run --web
 setup: .venv/bin/python
 	.venv/bin/python -m pip install -e .[dev]
+run:
+	.venv/bin/bussdcc-system-health run --web
 check: typecheck lint
 typecheck: .venv/bin/mypy
 	.venv/bin/mypy --strict src

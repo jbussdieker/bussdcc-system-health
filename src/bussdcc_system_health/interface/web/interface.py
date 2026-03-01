@@ -4,12 +4,12 @@ from flask_socketio import SocketIO
 
 from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
-from bussdcc.events import EventSchema
+from bussdcc.message import Message
 
 from bussdcc_framework.interface import web
 from bussdcc_framework.interface.web.base import FlaskApp
 
-from ... import events
+from ... import message
 from ...version import __version__ as app_version
 
 
@@ -47,20 +47,20 @@ class WebInterface(web.WebInterface):
     def register_socketio(self, socketio: SocketIO, ctx: ContextProtocol) -> None:
         pass
 
-    def handle_event(self, ctx: ContextProtocol, evt: Event[EventSchema]) -> None:
+    def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload
 
-        if isinstance(payload, events.TemperatureUpdate):
+        if isinstance(payload, message.TemperatureUpdate):
             self.socketio.emit("ui.system.temperature.updated", payload.to_dict())
-        elif isinstance(payload, events.LoadAverageUpdate):
+        elif isinstance(payload, message.LoadAverageUpdate):
             self.socketio.emit("ui.system.load.updated", payload.to_dict())
-        elif isinstance(payload, events.MemoryUsageUpdate):
+        elif isinstance(payload, message.MemoryUsageUpdate):
             self.socketio.emit("ui.system.memory.usage.updated", payload.to_dict())
-        elif isinstance(payload, events.CPUUsageUpdate):
+        elif isinstance(payload, message.CPUUsageUpdate):
             self.socketio.emit("ui.system.cpu.usage.updated", payload.to_dict())
-        elif isinstance(payload, events.DiskUsageUpdate):
+        elif isinstance(payload, message.DiskUsageUpdate):
             self.socketio.emit("ui.system.disk.usage.updated", payload.to_dict())
-        elif isinstance(payload, events.NetworkUsageUpdate):
+        elif isinstance(payload, message.NetworkUsageUpdate):
             self.socketio.emit(
                 "ui.system.network.usage.updated",
                 {"timestamp": evt.time.timestamp(), **payload.to_dict()},

@@ -3,9 +3,9 @@ from collections import deque
 from bussdcc.process import Process
 from bussdcc.context import ContextProtocol
 from bussdcc.event import Event
-from bussdcc.events import EventSchema
+from bussdcc.message import Message
 
-from .. import events
+from .. import message
 
 
 class SystemStatsProcess(Process):
@@ -16,25 +16,25 @@ class SystemStatsProcess(Process):
     def start(self, ctx: ContextProtocol) -> None:
         self._net_history: dict[str, deque[dict[str, float | int]]] = {}
 
-    def handle_event(self, ctx: ContextProtocol, evt: Event[EventSchema]) -> None:
+    def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload
 
-        if isinstance(payload, events.TemperatureUpdate):
+        if isinstance(payload, message.TemperatureUpdate):
             ctx.state.set("system.temperature", payload)
 
-        if isinstance(payload, events.MemoryUsageUpdate):
+        if isinstance(payload, message.MemoryUsageUpdate):
             ctx.state.set("system.memory.usage", payload)
 
-        elif isinstance(payload, events.DiskUsageUpdate):
+        elif isinstance(payload, message.DiskUsageUpdate):
             ctx.state.set("system.disk.usage", payload)
 
-        elif isinstance(payload, events.LoadAverageUpdate):
+        elif isinstance(payload, message.LoadAverageUpdate):
             ctx.state.set("system.load", payload)
 
-        elif isinstance(payload, events.CPUUsageUpdate):
+        elif isinstance(payload, message.CPUUsageUpdate):
             ctx.state.set("system.cpu.usage", payload)
 
-        elif isinstance(payload, events.NetworkUsageUpdate):
+        elif isinstance(payload, message.NetworkUsageUpdate):
             ctx.state.set("system.network.usage", payload)
 
             if not evt.time:

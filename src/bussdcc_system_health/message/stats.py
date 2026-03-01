@@ -1,11 +1,11 @@
 from typing import Optional, List
 from dataclasses import dataclass
 
-from bussdcc.events import EventSchema
+from bussdcc.message import Message
 
 
 @dataclass(slots=True)
-class MemoryUsageUpdate(EventSchema):
+class MemoryUsageUpdate(Message):
     name = "system.memory.usage.updated"
 
     total: int
@@ -15,7 +15,7 @@ class MemoryUsageUpdate(EventSchema):
 
 
 @dataclass(slots=True)
-class DiskUsageUpdate(EventSchema):
+class DiskUsageUpdate(Message):
     name = "system.disk.usage.updated"
 
     mountpoint: str
@@ -26,14 +26,14 @@ class DiskUsageUpdate(EventSchema):
 
 
 @dataclass(slots=True)
-class TemperatureUpdate(EventSchema):
+class TemperatureUpdate(Message):
     name = "system.temperature.updated"
 
     value: float
 
 
 @dataclass(slots=True)
-class LoadAverageUpdate(EventSchema):
+class LoadAverageUpdate(Message):
     name = "system.load.updated"
 
     load_1m: float
@@ -42,7 +42,7 @@ class LoadAverageUpdate(EventSchema):
 
 
 @dataclass(slots=True)
-class CPUUsageUpdate(EventSchema):
+class CPUUsageUpdate(Message):
     name = "system.cpu.usage.updated"
 
     user: float
@@ -59,7 +59,7 @@ class InterfaceUsage:
 
 
 @dataclass(slots=True)
-class NetworkUsageUpdate(EventSchema):
+class NetworkUsageUpdate(Message):
     name = "system.network.usage.updated"
 
     interfaces: List[InterfaceUsage]
