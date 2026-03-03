@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.9.0...v0.10.0) (2026-03-03)
+
+
+### Features
+
+* **system-health:** enhance immutability and update dependencies ([5dc5907](https://github.com/jbussdieker/bussdcc-system-health/commit/5dc5907edde4d00c36fa2c407c1acf267730659d))
+
 ## [0.9.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.8.0...v0.9.0) (2026-03-01)
 
 
