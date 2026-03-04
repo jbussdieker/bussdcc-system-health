@@ -6,8 +6,6 @@ from bussdcc.message import Message
 
 @dataclass(slots=True, frozen=True)
 class MemoryUsageUpdate(Message):
-    name = "system.memory.usage.updated"
-
     total: int
     used: int
     available: int
@@ -16,8 +14,6 @@ class MemoryUsageUpdate(Message):
 
 @dataclass(slots=True, frozen=True)
 class DiskUsageUpdate(Message):
-    name = "system.disk.usage.updated"
-
     mountpoint: str
     total: int
     used: int
@@ -27,15 +23,11 @@ class DiskUsageUpdate(Message):
 
 @dataclass(slots=True, frozen=True)
 class TemperatureUpdate(Message):
-    name = "system.temperature.updated"
-
     value: float
 
 
 @dataclass(slots=True, frozen=True)
 class LoadAverageUpdate(Message):
-    name = "system.load.updated"
-
     load_1m: float
     load_5m: float
     load_15m: float
@@ -43,8 +35,6 @@ class LoadAverageUpdate(Message):
 
 @dataclass(slots=True, frozen=True)
 class CPUUsageUpdate(Message):
-    name = "system.cpu.usage.updated"
-
     user: float
     system: float
     iowait: float
@@ -60,6 +50,4 @@ class InterfaceUsage:
 
 @dataclass(slots=True, frozen=True)
 class NetworkUsageUpdate(Message):
-    name = "system.network.usage.updated"
-
     interfaces: List[InterfaceUsage]
