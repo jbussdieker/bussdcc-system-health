@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.11.0...v0.12.0) (2026-03-04)
+
+
+### Features
+
+* **system-health:** update dependencies and remove message names ([28dd7cc](https://github.com/jbussdieker/bussdcc-system-health/commit/28dd7ccfc1db87405eeb36347a90ca2527c53b7b))
+
 ## [0.11.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.10.0...v0.11.0) (2026-03-04)
 
 
