@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.12.0...v0.13.0) (2026-03-05)
+
+
+### Features
+
+* **cli:** enhance CLI with replay functionality and update dependencies ([1903225](https://github.com/jbussdieker/bussdcc-system-health/commit/1903225e0736f08cf938857a2a0588500e236351))
+
 ## [0.12.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.11.0...v0.12.0) (2026-03-04)
 
 
