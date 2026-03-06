@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.13.0...v0.14.0) (2026-03-06)
+
+
+### Features
+
+* **dependencies:** update bussdcc-framework to v0.12.0 ([34c20f7](https://github.com/jbussdieker/bussdcc-system-health/commit/34c20f78acd24237b59fa7e2674c6400d53ea49b))
+
 ## [0.13.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.12.0...v0.13.0) (2026-03-05)
 
 
