@@ -43,14 +43,14 @@ def run(
     if record:
         runtime.add_sink(JsonlSink(root=record_path, interval=record_interval))
 
-    runtime.register_process(framework_process.SystemIdentityProcess())
-    runtime.register_process(process.SystemStatsProcess())
+    runtime.processes.register(framework_process.SystemIdentityProcess())
+    runtime.processes.register(process.SystemStatsProcess())
 
     if web:
-        runtime.register_interface(interface.WebInterface(web_host, web_port))
+        runtime.interfaces.register(interface.WebInterface(web_host, web_port))
 
-    runtime.register_service(framework_service.SystemIdentityService())
-    runtime.register_service(service.SystemStatsService(stats_interval))
+    runtime.services.register(framework_service.SystemIdentityService())
+    runtime.services.register(service.SystemStatsService(stats_interval))
 
     runtime.run()
 
@@ -68,10 +68,10 @@ def replay(speed: float, path: str, web: bool, web_host: str, web_port: int) -> 
 
     runtime.add_sink(ConsoleSink())
 
-    runtime.register_process(framework_process.SystemIdentityProcess())
-    runtime.register_process(process.SystemStatsProcess())
+    runtime.processes.register(framework_process.SystemIdentityProcess())
+    runtime.processes.register(process.SystemStatsProcess())
 
     if web:
-        runtime.register_interface(interface.WebInterface(web_host, web_port))
+        runtime.interfaces.register(interface.WebInterface(web_host, web_port))
 
     runtime.replay(source)
