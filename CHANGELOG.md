@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.16.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.15.1...v0.16.0) (2026-03-07)
+
+
+### Features
+
+* **runtime:** update registration methods and dependencies ([d659b2b](https://github.com/jbussdieker/bussdcc-system-health/commit/d659b2b277ccea5874f7a2a1b8f0b6e1bd23e004))
+
+
+### Bug Fixes
+
+* **dependencies:** update bussdcc-framework to v0.14.1 ([7a61643](https://github.com/jbussdieker/bussdcc-system-health/commit/7a61643c8e874419e9868102bf8028e4cfb5b0fb))
+
 ## [0.15.1](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.15.0...v0.15.1) (2026-03-06)
 
 
