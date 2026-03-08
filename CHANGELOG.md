@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.1](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.18.0...v0.18.1) (2026-03-08)
+
+
+### Bug Fixes
+
+* **dependencies:** update bussdcc-framework and psutil versions ([694353d](https://github.com/jbussdieker/bussdcc-system-health/commit/694353d721630366a7e42da7ea0af3c5fdfc8df1))
+
 ## [0.18.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.17.0...v0.18.0) (2026-03-08)
 
 
