@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.18.1...v0.19.0) (2026-03-11)
+
+
+### Features
+
+* **dependencies, imports:** update bussdcc-framework and refactor imports ([c305935](https://github.com/jbussdieker/bussdcc-system-health/commit/c305935054b618b3ac91273630462c3b18e037d8))
+
 ## [0.18.1](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.18.0...v0.18.1) (2026-03-08)
 
 
