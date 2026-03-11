@@ -1,9 +1,6 @@
 from collections import deque
 
-from bussdcc.process import Process
-from bussdcc.context import ContextProtocol
-from bussdcc.event import Event
-from bussdcc.message import Message
+from bussdcc import Process, ContextProtocol, Event, Message
 
 from .. import message
 

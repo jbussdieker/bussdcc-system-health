@@ -1,10 +1,8 @@
 import click
 
 from bussdcc_framework.runtime import Runtime, ReplayRuntime
-
 from bussdcc_framework.io.console import ConsoleSink
 from bussdcc_framework.io.jsonl import JsonlSink, JsonlSource
-
 from bussdcc_framework import process as framework_process
 from bussdcc_framework import service as framework_service
 

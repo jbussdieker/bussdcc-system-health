@@ -2,10 +2,7 @@ from typing import Any
 from flask import render_template
 from flask_socketio import SocketIO
 
-from bussdcc.context import ContextProtocol
-from bussdcc.event import Event
-from bussdcc.message import Message
-
+from bussdcc import ContextProtocol, Event, Message
 from bussdcc_framework.interface import web
 from bussdcc_framework.interface.web.base import FlaskApp
 

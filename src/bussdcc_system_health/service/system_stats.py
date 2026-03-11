@@ -5,8 +5,7 @@ from pathlib import Path
 
 import psutil
 
-from bussdcc.context import ContextProtocol
-from bussdcc.service import Service
+from bussdcc import Service, ContextProtocol
 
 from .. import message
 

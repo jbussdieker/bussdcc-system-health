@@ -1,7 +1,7 @@
 from typing import Optional, List
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
-from bussdcc.message import Message
+from bussdcc import Message
 
 
 @dataclass(slots=True, frozen=True)
@@ -50,4 +50,4 @@ class InterfaceUsage:
 
 @dataclass(slots=True, frozen=True)
 class NetworkUsageUpdate(Message):
-    interfaces: List[InterfaceUsage]
+    interfaces: List[InterfaceUsage] = field(default_factory=list)
