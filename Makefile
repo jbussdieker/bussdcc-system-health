@@ -4,6 +4,10 @@ setup: .venv/bin/python
 	.venv/bin/python -m pip install -e .[dev]
 run:
 	.venv/bin/bussdcc-system-health run --web
+record: .venv/bin/python
+	.venv/bin/bussdcc-system-health run --web --record
+replay: .venv/bin/python
+	.venv/bin/bussdcc-system-health replay --web
 check: typecheck lint
 typecheck: .venv/bin/mypy
 	.venv/bin/mypy --strict src

@@ -74,27 +74,28 @@
 
   netChart.update();
 
-  socket.on("ui.system.network.usage.updated", (net) => {
+  socket.on("ui.system.network.usage.updated", (payload) => {
+    let net = payload.data;
     for (const iface of net.interfaces) {
       const rxDataset = netChart.data.datasets.find(d => d.label === iface.interface + " ↓");
       const txDataset = netChart.data.datasets.find(d => d.label === iface.interface + " ↑");
 
       if (rxDataset) {
         rxDataset.data.push({
-          x: net.timestamp * 1000,
+          x: payload.timestamp * 1000,
           y: iface.rx_bps / 1024
         });
       }
 
       if (txDataset) {
         txDataset.data.push({
-          x: net.timestamp * 1000,
+          x: payload.timestamp * 1000,
           y: iface.tx_bps / 1024
         });
       }
     }
 
-    const cutoff = net.timestamp - 300;
+    const cutoff = payload.timestamp - 300;
 
     for (const dataset of netChart.data.datasets) {
       dataset.data = dataset.data.filter(p => p.x/1000 >= cutoff);

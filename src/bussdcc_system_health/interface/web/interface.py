@@ -48,17 +48,17 @@ class WebInterface(web.WebInterface):
         payload = evt.payload
 
         if isinstance(payload, message.TemperatureUpdate):
-            self.socketio.emit("ui.system.temperature.updated", payload.to_dict())
+            self.socketio.emit("ui.system.temperature.updated", payload)
         elif isinstance(payload, message.LoadAverageUpdate):
-            self.socketio.emit("ui.system.load.updated", payload.to_dict())
+            self.socketio.emit("ui.system.load.updated", payload)
         elif isinstance(payload, message.MemoryUsageUpdate):
-            self.socketio.emit("ui.system.memory.usage.updated", payload.to_dict())
+            self.socketio.emit("ui.system.memory.usage.updated", payload)
         elif isinstance(payload, message.CPUUsageUpdate):
-            self.socketio.emit("ui.system.cpu.usage.updated", payload.to_dict())
+            self.socketio.emit("ui.system.cpu.usage.updated", payload)
         elif isinstance(payload, message.DiskUsageUpdate):
-            self.socketio.emit("ui.system.disk.usage.updated", payload.to_dict())
+            self.socketio.emit("ui.system.disk.usage.updated", payload)
         elif isinstance(payload, message.NetworkUsageUpdate):
             self.socketio.emit(
                 "ui.system.network.usage.updated",
-                {"timestamp": evt.time.timestamp(), **payload.to_dict()},
+                {"timestamp": evt.time.timestamp(), "data": payload},
             )
