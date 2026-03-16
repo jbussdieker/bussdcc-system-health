@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.19.0...v0.20.0) (2026-03-16)
+
+
+### Features
+
+* **web, makefile:** update network event handling and add new make targets ([c5928db](https://github.com/jbussdieker/bussdcc-system-health/commit/c5928dbdf8c27f8b604280d983f99004e8f39b2f))
+
 ## [0.19.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.18.1...v0.19.0) (2026-03-11)
 
 
