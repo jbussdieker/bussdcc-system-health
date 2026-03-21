@@ -1,19 +1,15 @@
 from typing import Any
+
 from flask import render_template
 from flask_socketio import SocketIO
 
 from bussdcc import ContextProtocol, Event, Message
-from bussdcc_framework.interface import web
-from bussdcc_framework.interface.web.base import FlaskApp
+from bussdcc_framework.web import FlaskApp, WebInterface as Base
 
 from ... import message
-from ...version import __version__ as app_version
 
 
-class WebInterface(web.WebInterface):
-    def __init__(self, host: str, port: int) -> None:
-        super().__init__(__name__, host=host, port=port)
-
+class WebInterface(Base):
     def register_routes(self, app: FlaskApp, ctx: ContextProtocol) -> None:
 
         @app.context_processor
@@ -27,7 +23,6 @@ class WebInterface(web.WebInterface):
             system_temperature = ctx.state.get("system.temperature")
 
             return dict(
-                app_version=app_version,
                 cpu_usage=cpu_usage,
                 memory_usage=memory_usage,
                 disk_usage=disk_usage,
@@ -40,9 +35,6 @@ class WebInterface(web.WebInterface):
         @app.route("/")
         def home() -> str:
             return render_template("home.html")
-
-    def register_socketio(self, socketio: SocketIO, ctx: ContextProtocol) -> None:
-        pass
 
     def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload

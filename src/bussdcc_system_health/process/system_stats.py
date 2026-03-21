@@ -18,19 +18,14 @@ class SystemStatsProcess(Process):
 
         if isinstance(payload, message.TemperatureUpdate):
             ctx.state.set("system.temperature", payload)
-
-        if isinstance(payload, message.MemoryUsageUpdate):
+        elif isinstance(payload, message.MemoryUsageUpdate):
             ctx.state.set("system.memory.usage", payload)
-
         elif isinstance(payload, message.DiskUsageUpdate):
             ctx.state.set("system.disk.usage", payload)
-
         elif isinstance(payload, message.LoadAverageUpdate):
             ctx.state.set("system.load", payload)
-
         elif isinstance(payload, message.CPUUsageUpdate):
             ctx.state.set("system.cpu.usage", payload)
-
         elif isinstance(payload, message.NetworkUsageUpdate):
             ctx.state.set("system.network.usage", payload)
 
