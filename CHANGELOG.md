@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.21.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.20.0...v0.21.0) (2026-03-21)
+
+
+### Features
+
+* **cli, interface:** enhance CLI options and update web interface ([f39a3c5](https://github.com/jbussdieker/bussdcc-system-health/commit/f39a3c555f715eccc3a9b6c61aa4377f726da881))
+
 ## [0.20.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.19.0...v0.20.0) (2026-03-16)
 
 
