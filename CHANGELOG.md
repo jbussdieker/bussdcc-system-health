@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.21.0...v0.22.0) (2026-03-22)
+
+
+### Features
+
+* **web, interface:** enhance CPU monitoring and refactor templates ([ab7bdb7](https://github.com/jbussdieker/bussdcc-system-health/commit/ab7bdb758219091777dc65b716efe5ca298e9905))
+
 ## [0.21.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.20.0...v0.21.0) (2026-03-21)
 
 
