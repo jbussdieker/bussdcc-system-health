@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.24.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.23.1...v0.24.0) (2026-03-22)
+
+
+### Features
+
+* **web:** enhance system stats visualization with dynamic colors ([07f8199](https://github.com/jbussdieker/bussdcc-system/commit/07f8199595467e57860abf8060252fc928e37562))
+
 ## [0.23.1](https://github.com/jbussdieker/bussdcc-system/compare/v0.23.0...v0.23.1) (2026-03-22)
 
 
