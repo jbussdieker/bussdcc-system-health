@@ -1,9 +1,9 @@
 <div class="mb-2">
   <div class="progress" style="height: 20px;">
-    <div id="cpu-user-bar" class="progress-bar bg-primary" role="progressbar" style="width: {{ cpu_usage.user }}%"></div>
-    <div id="cpu-system-bar" class="progress-bar bg-warning" role="progressbar" style="width: {{ cpu_usage.system }}%"></div>
-    <div id="cpu-iowait-bar" class="progress-bar bg-danger" role="progressbar" style="width: {{ cpu_usage.iowait }}%"></div>
-    <div id="cpu-idle-bar" class="progress-bar bg-secondary" role="progressbar" style="width: {{ cpu_usage.idle }}%"></div>
+    <div id="cpu-user-bar" class="progress-bar" role="progressbar" style="width: {{ cpu_usage.user }}%; background-color: var(--metric-cpu-user);"></div>
+    <div id="cpu-system-bar" class="progress-bar" role="progressbar" style="width: {{ cpu_usage.system }}%; background-color: var(--metric-cpu-system);"></div>
+    <div id="cpu-iowait-bar" class="progress-bar" role="progressbar" style="width: {{ cpu_usage.iowait }}%; background-color: var(--metric-cpu-iowait);"></div>
+    <div id="cpu-idle-bar" class="progress-bar" role="progressbar" style="width: {{ cpu_usage.idle }}%; background-color: var(--metric-cpu-idle);"></div>
   </div>
 </div>
 <script>

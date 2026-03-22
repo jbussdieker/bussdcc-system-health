@@ -3,6 +3,20 @@
 {% block title %}System{% endblock %}
 {% block app_name %}bussdcc-system{% endblock %}
 
+{% block styles %}
+  {{ super() }}
+  <style>
+    :root {
+      --metric-cpu-user: #3b82f6;
+      --metric-cpu-system: #f59e0b;
+      --metric-cpu-iowait: #ef4444;
+      --metric-cpu-idle: #6b7280;
+      --metric-net-rx: #14b8a6;
+      --metric-net-tx: #8b5cf6;
+    }
+  </style>
+{% endblock %}
+
 {% block scripts %}
   {{ super() }}
   {% include "bussdcc_framework/socketio/_socketio.html" %}

@@ -4,8 +4,7 @@
 <script>
   socket.on("ui.system.disk.usage.updated", (disk) => {
     const d = document.getElementById("disk");
-    d.textContent = `${disk.percent.toFixed(1)}% (${(disk.used/1024**2).toFixed(0)}MB / ${(disk.total/1024**2).toFixed(0)}MB)`;
 
-    document.getElementById("disk-bar").style.width = disk.percent + "%";
+    d.textContent = `${disk.percent.toFixed(1)}% (${(disk.used/1024**2).toFixed(0)}MB / ${(disk.total/1024**2).toFixed(0)}MB)`;
   });
 </script>

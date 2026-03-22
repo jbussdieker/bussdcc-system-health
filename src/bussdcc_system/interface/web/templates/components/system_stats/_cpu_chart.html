@@ -4,6 +4,11 @@
 <script>
   const cpuCtx = document.getElementById("cpuChart");
   const initialCPUHistory = {{ cpu_history | tojson }};
+  const cpucss = getComputedStyle(document.documentElement);
+  const cpuUserColor = cpucss.getPropertyValue("--metric-cpu-user").trim();
+  const cpuSystemColor = cpucss.getPropertyValue("--metric-cpu-system").trim();
+  const cpuIOWaitColor = cpucss.getPropertyValue("--metric-cpu-iowait").trim();
+  const cpuIdleColor = cpucss.getPropertyValue("--metric-cpu-idle").trim();
 
   const cpuChart = new Chart(
     cpuCtx,
@@ -14,6 +19,8 @@
           {
             label: "User",
             pointRadius: 0,
+            borderColor: cpuUserColor,
+            backgroundColor: cpuUserColor,
             data: initialCPUHistory.map(s => ({
               x: s.t * 1000,
               y: s.user
@@ -22,6 +29,8 @@
           {
             label: "System",
             pointRadius: 0,
+            borderColor: cpuSystemColor,
+            backgroundColor: cpuSystemColor,
             data: initialCPUHistory.map(s => ({
               x: s.t * 1000,
               y: s.system
@@ -30,6 +39,8 @@
           {
             label: "IOWait",
             pointRadius: 0,
+            borderColor: cpuIOWaitColor,
+            backgroundColor: cpuIOWaitColor,
             data: initialCPUHistory.map(s => ({
               x: s.t * 1000,
               y: s.iowait
@@ -38,6 +49,8 @@
           {
             label: "Idle",
             pointRadius: 0,
+            borderColor: cpuIdleColor,
+            backgroundColor: cpuIdleColor,
             data: initialCPUHistory.map(s => ({
               x: s.t * 1000,
               y: s.idle

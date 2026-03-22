@@ -1,10 +1,21 @@
 <div class="mb-2">
   <div class="progress" style="height: 20px;">
-    <div id="memory-bar" class="progress-bar bg-info" role="progressbar" style="width: {{ memory_usage.percent }}%"></div>
+    <div id="memory-bar"
+         class="progress-bar"
+         role="progressbar"
+         style="width: {{ memory_usage.percent }}%; background-color: {{ '#198754' if memory_usage.percent < 70 else '#ffc107' if memory_usage.percent < 85 else '#dc3545' }};"></div>
   </div>
 </div>
 <script>
+  function memUsageColor(percent) {
+    if (percent >= 85) return "#dc3545";
+    if (percent >= 70) return "#ffc107";
+    return "#198754";
+  }
+
   socket.on("ui.system.memory.usage.updated", (mem) => {
-    document.getElementById("memory-bar").style.width = mem.percent + "%";
+    const bar = document.getElementById("memory-bar");
+    bar.style.width = mem.percent + "%";
+    bar.style.backgroundColor = memUsageColor(mem.percent);
   });
 </script>
