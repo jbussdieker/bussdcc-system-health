@@ -9,7 +9,7 @@ bp = Blueprint("system_stats", __name__, url_prefix="/system/stats")
 def index() -> str:
     ctx = current_ctx()
 
-    cpu_history = ctx.state.get("system.cpu.usage", {})
+    cpu_history = ctx.state.get("system.cpu.history", {})
     cpu_temperature = ctx.state.get("system.cpu.temperature")
     cpu_usage = ctx.state.get("system.cpu.usage")
     disk_usage = ctx.state.get("system.disk.usage", {"used": 0, "total": 0})
