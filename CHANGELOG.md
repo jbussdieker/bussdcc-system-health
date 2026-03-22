@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.23.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.22.0...v0.23.0) (2026-03-22)
+
+
+### Features
+
+* **system:** add web plugin and rename bussdcc-system-health to bussdcc-system ([3c0c1b8](https://github.com/jbussdieker/bussdcc-system/commit/3c0c1b8441ceecbe4ff58875f237096350451bf2))
+* **web, interface:** add system stats blueprint and update CPU temperature handling ([a56f86d](https://github.com/jbussdieker/bussdcc-system/commit/a56f86da4b6dfd091a64286210f995569d1f894f))
+
 ## [0.22.0](https://github.com/jbussdieker/bussdcc-system-health/compare/v0.21.0...v0.22.0) (2026-03-22)
 
 
