@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.1](https://github.com/jbussdieker/bussdcc-system/compare/v0.23.0...v0.23.1) (2026-03-22)
+
+
+### Bug Fixes
+
+* **system:** add py.typed file for type checking ([6c6e1be](https://github.com/jbussdieker/bussdcc-system/commit/6c6e1be279916652cc3c72a3f6afccc6b678e39e))
+
 ## [0.23.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.22.0...v0.23.0) (2026-03-22)
 
 
