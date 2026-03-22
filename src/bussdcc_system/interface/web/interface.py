@@ -8,16 +8,12 @@ from bussdcc_framework.web import FlaskApp, WebInterface as Base
 
 from ... import message
 
-from .blueprints.system_stats import bp as system_stats_bp
-
 
 class WebInterface(Base):
     def register_routes(self, app: FlaskApp, ctx: ContextProtocol) -> None:
-        app.register_blueprint(system_stats_bp)
-
         @app.route("/")
         def index() -> Any:
-            return redirect(url_for("system_stats.index"))
+            return redirect(url_for("system.index"))
 
     def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload

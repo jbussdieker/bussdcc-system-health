@@ -3,11 +3,11 @@
 setup: .venv/bin/python
 	.venv/bin/python -m pip install -e .[dev]
 run:
-	.venv/bin/bussdcc-system-health run --web
+	.venv/bin/bussdcc-system run --web
 record: .venv/bin/python
-	.venv/bin/bussdcc-system-health run --web --record
+	.venv/bin/bussdcc-system run --web --record
 replay: .venv/bin/python
-	.venv/bin/bussdcc-system-health replay --web
+	.venv/bin/bussdcc-system replay --web
 check: typecheck lint
 typecheck: .venv/bin/mypy
 	.venv/bin/mypy --strict src

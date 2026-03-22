@@ -1,6 +1,6 @@
-# BussDCC System Health
+# bussdcc-system
 
-**bussdcc-system-health** is a reference application demonstrating how to build a real system using **bussdcc** — a deterministic cybernetic runtime for Python.
+**bussdcc-system** is a reference application demonstrating how to build a real system using **bussdcc** — a deterministic cybernetic runtime for Python.
 
 It monitors host system health and exposes:
 

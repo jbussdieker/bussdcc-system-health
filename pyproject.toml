@@ -1,13 +1,13 @@
 [project]
-name = "bussdcc-system-health"
+name = "bussdcc-system"
 dynamic = [
     "version",
 ]
 dependencies = [
-    "bussdcc-framework[bootstrap] ~= 0.32.0",
+    "bussdcc-framework[bootstrap] ~= 0.33.0",
     "psutil ~= 7.2.2",
 ]
-description = "bussdcc-system-health"
+description = "bussdcc-system"
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [
@@ -30,12 +30,15 @@ classifiers = [
     "Typing :: Typed",
 ]
 keywords = [
-    "system-health",
+    "system",
 ]
 license = "MIT"
 
+[project.entry-points."bussdcc_framework.web"]
+system-stats = "bussdcc_system.interface.web.plugin:plugin"
+
 [project.scripts]
-bussdcc-system-health = "bussdcc_system_health.cli:main"
+bussdcc-system = "bussdcc_system.cli:main"
 
 [project.optional-dependencies]
 dev = [
@@ -44,11 +47,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/jbussdieker/bussdcc-system-health"
-Documentation = "https://github.com/jbussdieker/bussdcc-system-health/blob/main/README.md"
-Repository = "https://github.com/jbussdieker/bussdcc-system-health"
-Issues = "https://github.com/jbussdieker/bussdcc-system-health/issues"
-Changelog = "https://github.com/jbussdieker/bussdcc-system-health/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/jbussdieker/bussdcc-system"
+Documentation = "https://github.com/jbussdieker/bussdcc-system/blob/main/README.md"
+Repository = "https://github.com/jbussdieker/bussdcc-system"
+Issues = "https://github.com/jbussdieker/bussdcc-system/issues"
+Changelog = "https://github.com/jbussdieker/bussdcc-system/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = [

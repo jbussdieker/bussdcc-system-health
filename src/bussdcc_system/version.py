@@ -1,6 +1,6 @@
 from importlib.metadata import PackageNotFoundError, version
 
-PACKAGE_NAME = "bussdcc-system-health"
+PACKAGE_NAME = "bussdcc-system"
 
 
 def get_version() -> str:

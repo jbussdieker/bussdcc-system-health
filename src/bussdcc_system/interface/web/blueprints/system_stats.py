@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 
 from bussdcc_framework.interface.web import current_ctx
 
-bp = Blueprint("system_stats", __name__, url_prefix="/system/stats")
+bp = Blueprint("system", __name__, url_prefix="/system", template_folder="../templates")
 
 
 @bp.route("/")
@@ -23,9 +23,9 @@ def index() -> str:
         cpu_history=cpu_history,
         cpu_temperature=cpu_temperature,
         cpu_usage=cpu_usage,
-        memory_usage=memory_usage,
         disk_usage=disk_usage,
-        system_load=system_load,
+        memory_usage=memory_usage,
         network_usage=network_usage,
         network_history=network_history,
+        system_load=system_load,
     )

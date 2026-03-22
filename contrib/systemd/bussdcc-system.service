@@ -1,12 +1,12 @@
 [Unit]
-Description=BussDCC System Health
+Description=BussDCC System
 After=network.target
 
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/bussdcc-system-health
-ExecStart=/home/ubuntu/bussdcc-system-health/.venv/bin/bussdcc-system-health run --quiet --web --web-host 0.0.0.0
+WorkingDirectory=/home/ubuntu/bussdcc-system
+ExecStart=/home/ubuntu/bussdcc-system/.venv/bin/bussdcc-system run --quiet --web --web-host 0.0.0.0
 
 Restart=always
 RestartSec=3

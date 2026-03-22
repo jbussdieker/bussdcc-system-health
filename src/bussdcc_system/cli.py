@@ -1,18 +1,20 @@
 import click
 
 from bussdcc_framework.io import ConsoleSink, JsonlSink, JsonlSource
-from bussdcc_framework import (
-    Runtime,
-    ReplayRuntime,
-    process as framework_process,
-    service as framework_service,
-)
+from bussdcc_framework import Runtime, ReplayRuntime
 
 from . import process, service, interface
 
 from .version import __version__
 
-PLUGINS = ["bootstrap", "bootstrap-layout", "formtree", "socketio", "chartjs"]
+PLUGINS = [
+    "bootstrap",
+    "bootstrap-layout",
+    "formtree",
+    "socketio",
+    "chartjs",
+    "system-stats",
+]
 
 
 def history_path(data_dir: str) -> str:
@@ -21,7 +23,7 @@ def history_path(data_dir: str) -> str:
 
 @click.group()
 def main() -> None:
-    """BussDCC System Health"""
+    """BussDCC System"""
 
 
 @main.command()
@@ -54,10 +56,10 @@ def run(
             JsonlSink(root=history_path(data_dir), interval=record_interval)
         )
 
-    runtime.processes.register(framework_process.SystemIdentityProcess())
+    runtime.processes.register(process.SystemIdentityProcess())
     runtime.processes.register(process.SystemStatsProcess())
 
-    runtime.services.register(framework_service.SystemIdentityService())
+    runtime.services.register(service.SystemIdentityService())
     runtime.services.register(service.SystemStatsService(stats_interval))
 
     if web:
@@ -66,8 +68,6 @@ def run(
                 __name__,
                 host=web_host,
                 port=web_port,
-                template_folder="interface/web/templates",
-                static_folder="interface/web/static",
                 plugins=PLUGINS,
             )
         )
@@ -91,7 +91,7 @@ def replay(
 
     runtime.add_sink(ConsoleSink())
 
-    runtime.processes.register(framework_process.SystemIdentityProcess())
+    runtime.processes.register(process.SystemIdentityProcess())
     runtime.processes.register(process.SystemStatsProcess())
 
     if web:
@@ -100,8 +100,6 @@ def replay(
                 __name__,
                 host=web_host,
                 port=web_port,
-                template_folder="interface/web/templates",
-                static_folder="interface/web/static",
                 plugins=PLUGINS,
             )
         )

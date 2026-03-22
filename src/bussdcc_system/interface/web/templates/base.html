@@ -1,7 +1,7 @@
 {% extends "bussdcc_framework/bootstrap_layout/base.html" %}
 
 {% block title %}System{% endblock %}
-{% block app_name %}system-health{% endblock %}
+{% block app_name %}bussdcc-system{% endblock %}
 
 {% block scripts %}
   {{ super() }}
@@ -13,14 +13,14 @@
 {% block nav %}
   <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container">
-      <a class="navbar-brand" href="{{ url_for("system_stats.index") }}">System</a>
+      <a class="navbar-brand" href="{{ url_for("index") }}">BussDCC System</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link {{ "active" if request.blueprint == "system_stats" }}" aria-current="page" href="{{ url_for("system_stats.index") }}">Home</a>
+            <a class="nav-link {{ "active" if request.blueprint == "system" }}" aria-current="page" href="{{ url_for("system.index") }}">System</a>
           </li>
         </ul>
       </div>
