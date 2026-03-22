@@ -17,8 +17,8 @@ class SystemStatsProcess(Process):
     def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload
 
-        if isinstance(payload, message.SystemTemperatureUpdate):
-            ctx.state.set("system.temperature", payload)
+        if isinstance(payload, message.CPUTemperatureUpdate):
+            ctx.state.set("system.cpu.temperature", payload)
         elif isinstance(payload, message.MemoryUsageUpdate):
             ctx.state.set("system.memory.usage", payload)
         elif isinstance(payload, message.DiskUsageUpdate):

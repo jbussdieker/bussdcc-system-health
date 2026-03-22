@@ -25,7 +25,7 @@ class SystemStatsService(Service):
         self._emit_cpu_usage(ctx)
         self._emit_load_average(ctx)
         self._emit_disk_usage(ctx)
-        self._emit_temperature(ctx)
+        self._emit_cpu_temperature(ctx)
         self._emit_network_usage(ctx)
 
     def _emit_memory_usage(self, ctx: ContextProtocol) -> None:
@@ -93,13 +93,13 @@ class SystemStatsService(Service):
             )
         )
 
-    def _emit_temperature(self, ctx: ContextProtocol) -> None:
+    def _emit_cpu_temperature(self, ctx: ContextProtocol) -> None:
         temp_c = self._read_cpu_temperature()
         if temp_c is None:
             return
 
         ctx.emit(
-            message.SystemTemperatureUpdate(
+            message.CPUTemperatureUpdate(
                 value=temp_c,
             )
         )

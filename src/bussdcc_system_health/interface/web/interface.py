@@ -1,6 +1,6 @@
 from typing import Any
 
-from flask import render_template
+from flask import redirect, url_for
 from flask_socketio import SocketIO
 
 from bussdcc import ContextProtocol, Event, Message
@@ -8,41 +8,22 @@ from bussdcc_framework.web import FlaskApp, WebInterface as Base
 
 from ... import message
 
+from .blueprints.system_stats import bp as system_stats_bp
+
 
 class WebInterface(Base):
     def register_routes(self, app: FlaskApp, ctx: ContextProtocol) -> None:
-
-        @app.context_processor
-        def get_context() -> dict[str, Any]:
-            cpu_usage = ctx.state.get("system.cpu.usage")
-            cpu_history = ctx.state.get("system.cpu.history", {})
-            memory_usage = ctx.state.get("system.memory.usage")
-            disk_usage = ctx.state.get("system.disk.usage")
-            load = ctx.state.get("system.load")
-            network_usage = ctx.state.get("system.network.usage")
-            network_history = ctx.state.get("system.network.history", {})
-            system_temperature = ctx.state.get("system.temperature")
-
-            return dict(
-                cpu_usage=cpu_usage,
-                cpu_history=cpu_history,
-                memory_usage=memory_usage,
-                disk_usage=disk_usage,
-                load=load,
-                network_usage=network_usage,
-                network_history=network_history,
-                system_temperature=system_temperature,
-            )
+        app.register_blueprint(system_stats_bp)
 
         @app.route("/")
-        def home() -> str:
-            return render_template("home.html")
+        def index() -> Any:
+            return redirect(url_for("system_stats.index"))
 
     def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload
 
-        if isinstance(payload, message.SystemTemperatureUpdate):
-            self.socketio.emit("ui.system.temperature.updated", payload)
+        if isinstance(payload, message.CPUTemperatureUpdate):
+            self.socketio.emit("ui.system.cpu.temperature.updated", payload)
         elif isinstance(payload, message.LoadAverageUpdate):
             self.socketio.emit("ui.system.load.updated", payload)
         elif isinstance(payload, message.MemoryUsageUpdate):

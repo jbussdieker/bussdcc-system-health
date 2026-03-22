@@ -22,7 +22,7 @@ class DiskUsageUpdate(Message):
 
 
 @dataclass(slots=True, frozen=True)
-class SystemTemperatureUpdate(Message):
+class CPUTemperatureUpdate(Message):
     value: float
 
 
