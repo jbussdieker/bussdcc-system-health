@@ -5,7 +5,7 @@ from pathlib import Path
 
 import psutil
 
-from bussdcc import Service, ContextProtocol
+from bussdcc import ContextProtocol, Service
 
 from .. import message
 
@@ -99,7 +99,7 @@ class SystemStatsService(Service):
             return
 
         ctx.emit(
-            message.TemperatureUpdate(
+            message.SystemTemperatureUpdate(
                 value=temp_c,
             )
         )

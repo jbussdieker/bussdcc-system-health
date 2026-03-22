@@ -12,11 +12,12 @@ class SystemStatsProcess(Process):
 
     def start(self, ctx: ContextProtocol) -> None:
         self._net_history: dict[str, deque[dict[str, float | int]]] = {}
+        self._cpu_history: deque[dict[str, float | int]] = deque()
 
     def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload
 
-        if isinstance(payload, message.TemperatureUpdate):
+        if isinstance(payload, message.SystemTemperatureUpdate):
             ctx.state.set("system.temperature", payload)
         elif isinstance(payload, message.MemoryUsageUpdate):
             ctx.state.set("system.memory.usage", payload)
@@ -26,6 +27,28 @@ class SystemStatsProcess(Process):
             ctx.state.set("system.load", payload)
         elif isinstance(payload, message.CPUUsageUpdate):
             ctx.state.set("system.cpu.usage", payload)
+
+            if not evt.time:
+                return
+
+            now = evt.time.timestamp()
+
+            self._cpu_history.append(
+                {
+                    "t": now,
+                    "user": payload.user,
+                    "system": payload.system,
+                    "iowait": payload.iowait,
+                    "idle": payload.idle,
+                }
+            )
+
+            cutoff = now - self.HISTORY_SECONDS
+            while self._cpu_history and self._cpu_history[0]["t"] < cutoff:
+                self._cpu_history.popleft()
+
+            ctx.state.set("system.cpu.history", list(self._cpu_history))
+
         elif isinstance(payload, message.NetworkUsageUpdate):
             ctx.state.set("system.network.usage", payload)
 
@@ -36,7 +59,6 @@ class SystemStatsProcess(Process):
 
             for iface in payload.interfaces:
                 name = iface.interface
-
                 history = self._net_history.setdefault(name, deque())
 
                 history.append(

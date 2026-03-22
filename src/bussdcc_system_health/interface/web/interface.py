@@ -15,6 +15,7 @@ class WebInterface(Base):
         @app.context_processor
         def get_context() -> dict[str, Any]:
             cpu_usage = ctx.state.get("system.cpu.usage")
+            cpu_history = ctx.state.get("system.cpu.history", {})
             memory_usage = ctx.state.get("system.memory.usage")
             disk_usage = ctx.state.get("system.disk.usage")
             load = ctx.state.get("system.load")
@@ -24,6 +25,7 @@ class WebInterface(Base):
 
             return dict(
                 cpu_usage=cpu_usage,
+                cpu_history=cpu_history,
                 memory_usage=memory_usage,
                 disk_usage=disk_usage,
                 load=load,
@@ -39,14 +41,17 @@ class WebInterface(Base):
     def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload
 
-        if isinstance(payload, message.TemperatureUpdate):
+        if isinstance(payload, message.SystemTemperatureUpdate):
             self.socketio.emit("ui.system.temperature.updated", payload)
         elif isinstance(payload, message.LoadAverageUpdate):
             self.socketio.emit("ui.system.load.updated", payload)
         elif isinstance(payload, message.MemoryUsageUpdate):
             self.socketio.emit("ui.system.memory.usage.updated", payload)
         elif isinstance(payload, message.CPUUsageUpdate):
-            self.socketio.emit("ui.system.cpu.usage.updated", payload)
+            self.socketio.emit(
+                "ui.system.cpu.usage.updated",
+                {"timestamp": evt.time.timestamp(), "data": payload},
+            )
         elif isinstance(payload, message.DiskUsageUpdate):
             self.socketio.emit("ui.system.disk.usage.updated", payload)
         elif isinstance(payload, message.NetworkUsageUpdate):

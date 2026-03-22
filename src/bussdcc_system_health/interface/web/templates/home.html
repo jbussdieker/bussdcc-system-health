@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  <div class="col col-4">
+<div class="row g-3">
+  <div class="col-12 col-xl-4 order-1 order-xl-1">
     <div class="card mb-3">
       <div class="card-header">Host Information</div>
       <div class="card-body p-2">
         <dl class="mb-0">
           <dt>Host Name</dt>
-          <dd>{{ system_identity.hostname }}</dd>
+          <dd class="text-break">{{ system_identity.hostname }}</dd>
           <dt>Model</dt>
-          <dd>{{ system_identity.model or "—"}}</dd>
+          <dd class="text-break">{{ system_identity.model or "—"}}</dd>
           <dt>Serial</dt>
-          <dd>{{ system_identity.serial or "—" }}</dd>
+          <dd class="text-break">{{ system_identity.serial or "—" }}</dd>
         </dl>
       </div>
     </div>
@@ -22,40 +22,46 @@
         <dl class="mb-0">
           <dt>Processor</dt>
           <dd>
-            {% include "_cpu_temperature_card.html" %}
-            {% include "_cpu_usage_bar.html" %}
+            {% include "components/system_stats/_cpu_temperature_card.html" %}
+            {% include "components/system_stats/_cpu_usage_bar.html" %}
           </dd>
 
           <dt>System Load (1m/5m/15m)</dt>
           <dd>
-            {% include "_system_load_card.html" %}
+            {% include "components/system_stats/_system_load_card.html" %}
           </dd>
 
           <dt>Memory</dt>
           <dd>
-            {% include "_memory_usage_bar.html" %}
-            {% include "_memory_usage_card.html" %}
+            {% include "components/system_stats/_memory_usage_bar.html" %}
+            {% include "components/system_stats/_memory_usage_card.html" %}
           </dd>
 
           <dt>Disk</dt>
           <dd>
-            {% include "_disk_usage_bar.html" %}
-            {% include "_disk_usage_card.html" %}
+            {% include "components/system_stats/_disk_usage_bar.html" %}
+            {% include "components/system_stats/_disk_usage_card.html" %}
           </dd>
 
           <dt>Network</dt>
           <dd>
-            {% include "_network_usage_card.html" %}
+            {% include "components/system_stats/_network_usage_card.html" %}
           </dd>
         </dl>
       </div>
     </div>
   </div>
-  <div class="col col-8">
+  <div class="col-12 col-xl-8 order-2 order-xl-2">
+    <div class="card mb-3">
+      <div class="card-header">CPU Usage (last 5 min)</div>
+      <div class="card-body p-2">
+        {% include "components/system_stats/_cpu_chart.html" %}
+      </div>
+    </div>
     <div class="card mb-3">
       <div class="card-header">Network Traffic (last 5 min)</div>
       <div class="card-body p-2">
-        {% include "_network_chart.html" %}
+        {% include "components/system_stats/_network_chart.html" %}
       </div>
     </div>
   </div>

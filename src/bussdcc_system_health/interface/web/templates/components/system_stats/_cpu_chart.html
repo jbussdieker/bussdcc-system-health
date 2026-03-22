@@ -1,0 +1,110 @@
+<div class="chart-container">
+  <canvas id="cpuChart" height="320"></canvas>
+</div>
+<script>
+  const cpuCtx = document.getElementById("cpuChart");
+  const initialCPUHistory = {{ cpu_history | tojson }};
+
+  const cpuChart = new Chart(
+    cpuCtx,
+    {
+      type: "line",
+      data: {
+        datasets: [
+          {
+            label: "User",
+            pointRadius: 0,
+            data: initialCPUHistory.map(s => ({
+              x: s.t * 1000,
+              y: s.user
+            }))
+          },
+          {
+            label: "System",
+            pointRadius: 0,
+            data: initialCPUHistory.map(s => ({
+              x: s.t * 1000,
+              y: s.system
+            }))
+          },
+          {
+            label: "IOWait",
+            pointRadius: 0,
+            data: initialCPUHistory.map(s => ({
+              x: s.t * 1000,
+              y: s.iowait
+            }))
+          },
+          {
+            label: "Idle",
+            pointRadius: 0,
+            data: initialCPUHistory.map(s => ({
+              x: s.t * 1000,
+              y: s.idle
+            }))
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        animation: false,
+        maintainAspectRatio: false,
+        parsing: false,
+        scales: {
+          x: {
+            type: "timeseries",
+            display: true,
+            title: {
+              display: true,
+              text: "Time"
+            }
+          },
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: { callback: v => v + "%" },
+            title: {
+              display: true,
+              text: "CPU %"
+            }
+          },
+        },
+        interaction: {
+          mode: "nearest",
+          axis: "x",
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            display: true
+          },
+          tooltip: {
+            mode: "index",
+          }
+        }
+      }
+    }
+  );
+
+  socket.on("ui.system.cpu.usage.updated", (payload) => {
+    const cpu = payload.data;
+    const t = payload.timestamp * 1000;
+
+    const datasetByLabel = Object.fromEntries(
+      cpuChart.data.datasets.map(d => [d.label, d])
+    );
+
+    datasetByLabel["User"].data.push({ x: t, y: cpu.user });
+    datasetByLabel["System"].data.push({ x: t, y: cpu.system });
+    datasetByLabel["IOWait"].data.push({ x: t, y: cpu.iowait });
+    datasetByLabel["Idle"].data.push({ x: t, y: cpu.idle });
+
+    const cutoff = payload.timestamp - 300;
+
+    for (const dataset of cpuChart.data.datasets) {
+      dataset.data = dataset.data.filter(p => p.x / 1000 >= cutoff);
+    }
+
+    cpuChart.update("none");
+  });
+</script>
