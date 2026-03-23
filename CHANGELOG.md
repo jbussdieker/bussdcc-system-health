@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.25.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.24.0...v0.25.0) (2026-03-23)
+
+
+### Features
+
+* **web, deps:** update event handling and dependencies ([c85bb7b](https://github.com/jbussdieker/bussdcc-system/commit/c85bb7b2533a307406afe26b3ff666d9cbbcd386))
+
 ## [0.24.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.23.1...v0.24.0) (2026-03-22)
 
 
