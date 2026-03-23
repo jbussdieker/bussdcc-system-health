@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.26.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.25.0...v0.26.0) (2026-03-23)
+
+
+### Features
+
+* **notification:** add system notification interface ([108d55a](https://github.com/jbussdieker/bussdcc-system/commit/108d55ab59b24555e49dbd75e923656c4451735b))
+
 ## [0.25.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.24.0...v0.25.0) (2026-03-23)
 
 
