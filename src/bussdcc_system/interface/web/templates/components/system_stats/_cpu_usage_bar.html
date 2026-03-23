@@ -7,7 +7,7 @@
   </div>
 </div>
 <script>
-  socket.on("ui.system.cpu.usage.updated", (payload) => {
+  window.BussDCC.on("ui.system.cpu.usage.updated", (payload) => {
     const cpu = payload.data;
     document.getElementById("cpu-user-bar").style.width = cpu.user + "%";
     document.getElementById("cpu-system-bar").style.width = cpu.system + "%";

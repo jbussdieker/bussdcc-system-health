@@ -13,7 +13,7 @@
     return "#198754";
   }
 
-  socket.on("ui.system.disk.usage.updated", (disk) => {
+  window.BussDCC.on("ui.system.disk.usage.updated", (disk) => {
     const bar = document.getElementById("disk-bar");
 
     bar.style.width = disk.percent + "%";

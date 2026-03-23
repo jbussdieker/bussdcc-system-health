@@ -8,6 +8,7 @@ from . import process, service, interface
 from .version import __version__
 
 PLUGINS = [
+    "client",
     "bootstrap",
     "bootstrap-layout",
     "formtree",

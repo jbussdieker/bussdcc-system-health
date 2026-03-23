@@ -99,7 +99,7 @@
     }
   );
 
-  socket.on("ui.system.cpu.usage.updated", (payload) => {
+  window.BussDCC.on("ui.system.cpu.usage.updated", (payload) => {
     const cpu = payload.data;
     const t = payload.timestamp * 1000;
 

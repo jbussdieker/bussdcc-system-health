@@ -81,7 +81,7 @@
 
   netChart.update();
 
-  socket.on("ui.system.network.usage.updated", (payload) => {
+  window.BussDCC.on("ui.system.network.usage.updated", (payload) => {
     let net = payload.data;
     for (const iface of net.interfaces) {
       const rxDataset = netChart.data.datasets.find(d => d.label === iface.interface + " ↓");

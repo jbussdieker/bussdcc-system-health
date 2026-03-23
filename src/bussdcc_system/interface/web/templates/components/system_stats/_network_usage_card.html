@@ -10,7 +10,7 @@
 {% endif %}
 </div>
 <script>
-  socket.on("ui.system.network.usage.updated", (payload) => {
+  window.BussDCC.on("ui.system.network.usage.updated", (payload) => {
     const d = document.getElementById("network");
     let net = payload.data;
 

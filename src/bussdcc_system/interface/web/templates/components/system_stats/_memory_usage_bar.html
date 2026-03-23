@@ -13,7 +13,7 @@
     return "#198754";
   }
 
-  socket.on("ui.system.memory.usage.updated", (mem) => {
+  window.BussDCC.on("ui.system.memory.usage.updated", (mem) => {
     const bar = document.getElementById("memory-bar");
     bar.style.width = mem.percent + "%";
     bar.style.backgroundColor = memUsageColor(mem.percent);

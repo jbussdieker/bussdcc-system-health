@@ -1,6 +1,6 @@
 <div id="cpu_temperature">{{ cpu_temperature.value or "—" }}</div>
 <script>
-  socket.on("ui.system.cpu.temperature.updated", (temp) => {
+  window.BussDCC.on("ui.system.cpu.temperature.updated", (temp) => {
     const d = document.getElementById("cpu_temperature");
     d.textContent = `${temp.value.toFixed(1)} °C`;
   });
