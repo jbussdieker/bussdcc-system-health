@@ -63,6 +63,8 @@ def run(
     runtime.services.register(service.SystemIdentityService())
     runtime.services.register(service.SystemStatsService(stats_interval))
 
+    runtime.interfaces.register(interface.NotificationInterface())
+
     if web:
         runtime.interfaces.register(
             interface.WebInterface(
