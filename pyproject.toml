@@ -4,7 +4,7 @@ dynamic = [
     "version",
 ]
 dependencies = [
-    "bussdcc-framework[bootstrap] ~= 0.34.0",
+    "bussdcc-framework[bootstrap] ~= 0.35.0",
     "psutil ~= 7.2.2",
 ]
 description = "bussdcc-system"
