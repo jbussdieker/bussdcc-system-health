@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.28.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.27.0...v0.28.0) (2026-03-25)
+
+
+### Features
+
+* **deps, cli, templates:** update framework and refactor plugin usage ([94d1422](https://github.com/jbussdieker/bussdcc-system/commit/94d14227c5155d484c0bbfbe6daea240a7ed71c0))
+
 ## [0.27.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.26.0...v0.27.0) (2026-03-24)
 
 
