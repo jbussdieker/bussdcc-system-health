@@ -41,6 +41,9 @@ system-stats = "bussdcc_system.interface.web.plugin:plugin"
 bussdcc-system = "bussdcc_system.cli:main"
 
 [project.optional-dependencies]
+hardware = [
+    "bussdcc-hardware ~= 0.28.0",
+]
 dev = [
     "types-psutil",
     "bussdcc-framework[dev]",
