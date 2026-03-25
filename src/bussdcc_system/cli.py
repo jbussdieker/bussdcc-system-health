@@ -10,7 +10,6 @@ from .version import __version__
 PLUGINS = [
     "client",
     "bootstrap",
-    "bootstrap-layout",
     "formtree",
     "socketio",
     "chartjs",
