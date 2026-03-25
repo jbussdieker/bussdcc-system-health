@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.30.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.29.0...v0.30.0) (2026-03-25)
+
+
+### Features
+
+* **device-manager:** implement device management system ([57b0155](https://github.com/jbussdieker/bussdcc-system/commit/57b0155b78056663d50c1b9ab1eb962db3fa6af0))
+
 ## [0.29.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.28.0...v0.29.0) (2026-03-25)
 
 
