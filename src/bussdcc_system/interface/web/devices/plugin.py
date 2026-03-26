@@ -2,19 +2,17 @@ from typing import Any
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 
 from bussdcc import ContextProtocol
-from bussdcc_framework.web import FlaskApp, WebPlugin
-from bussdcc_framework.interface.web import current_ctx
+from bussdcc_framework.web import BaseWebPlugin, FlaskApp, WebPlugin
 from bussdcc_framework.codec import load_value, dump_value
 from bussdcc_framework.interface.web import formtree
 from bussdcc_hardware.registry import registry
-
 from bussdcc_system.service.device_manager.graph import extract_dependencies
 from bussdcc_system.model import DeviceSpec
 
 from .... import message
 
 
-class SystemDevicesPlugin:
+class SystemDevicesPlugin(BaseWebPlugin):
     name = "system-devices"
 
     def init_app(self, app: FlaskApp, ctx: ContextProtocol) -> None:
@@ -27,7 +25,6 @@ class SystemDevicesPlugin:
 
         @bp.route("/")
         def index() -> Any:
-            ctx = current_ctx()
             devices = ctx.state.get("devices", {})
 
             runtime_devices = {dev.id: dev for dev in ctx.runtime.devices.list()}
@@ -115,7 +112,6 @@ class SystemDevicesPlugin:
 
         @bp.route("/show/<id>")
         def show(id: str) -> Any:
-            ctx = current_ctx()
             devices = ctx.state.get("devices", {})
             spec = devices.get(id)
 
@@ -141,8 +137,6 @@ class SystemDevicesPlugin:
 
         @bp.route("/create/<type_>/<name>", methods=["POST"])
         def create(type_: str, name: str) -> Any:
-            ctx = current_ctx()
-
             registry_entry = registry.devices[type_]
             definition = registry_entry.definition
             if definition is None:
@@ -166,7 +160,6 @@ class SystemDevicesPlugin:
 
         @bp.route("/update/<id>", methods=["POST"])
         def update(id: str) -> Any:
-            ctx = current_ctx()
             devices = ctx.state.get("devices", {})
             spec = devices.get(id)
 
@@ -207,7 +200,6 @@ class SystemDevicesPlugin:
 
         @bp.route("/delete/<id>", methods=["POST"])
         def delete(id: str) -> Any:
-            ctx = current_ctx()
             devices = ctx.state.get("devices", {})
             spec = devices.get(id)
 

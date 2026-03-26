@@ -3,10 +3,10 @@ from typing import Any
 from flask import Blueprint, render_template, redirect, url_for, request
 
 from bussdcc import ContextProtocol
-from bussdcc_framework.web import FlaskApp, WebPlugin
+from bussdcc_framework.web import BaseWebPlugin, FlaskApp, WebPlugin
 
 
-class SystemRuntimeInfoPlugin:
+class SystemRuntimeInfoPlugin(BaseWebPlugin):
     name = "system-runtime-info"
 
     def init_app(self, app: FlaskApp, ctx: ContextProtocol) -> None:

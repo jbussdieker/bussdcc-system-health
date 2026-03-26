@@ -4,6 +4,7 @@ from bussdcc_framework.io import ConsoleSink, JsonlSink, JsonlSource
 from bussdcc_framework import Runtime, ReplayRuntime
 
 from . import process, service, interface
+from .service.device_manager import DeviceManagerService
 
 from .version import __version__
 
@@ -15,6 +16,7 @@ PLUGINS = [
     "chartjs",
     "system-stats",
     "system-services",
+    "system-devices",
     "system-runtime-info",
 ]
 
@@ -60,9 +62,11 @@ def run(
 
     runtime.processes.register(process.SystemIdentityProcess())
     runtime.processes.register(process.SystemStatsProcess())
+    runtime.processes.register(process.DeviceManagerProcess())
 
     runtime.services.register(service.SystemIdentityService())
     runtime.services.register(service.SystemStatsService(stats_interval))
+    runtime.services.register(DeviceManagerService())
 
     runtime.interfaces.register(interface.NotificationInterface())
 
