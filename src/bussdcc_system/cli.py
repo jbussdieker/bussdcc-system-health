@@ -14,6 +14,7 @@ PLUGINS = [
     "socketio",
     "chartjs",
     "system-stats",
+    "system-services",
 ]
 
 
@@ -70,6 +71,7 @@ def run(
                 __name__,
                 host=web_host,
                 port=web_port,
+                template_folder="interface/web/templates",
                 plugins=PLUGINS,
             )
         )
@@ -102,6 +104,7 @@ def replay(
                 __name__,
                 host=web_host,
                 port=web_port,
+                template_folder="interface/web/templates",
                 plugins=PLUGINS,
             )
         )

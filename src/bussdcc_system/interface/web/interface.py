@@ -13,7 +13,7 @@ class WebInterface(Base):
     def register_routes(self, app: FlaskApp, ctx: ContextProtocol) -> None:
         @app.route("/")
         def index() -> Any:
-            return redirect(url_for("system.index"))
+            return redirect(url_for("bussdcc_system_stats.index"))
 
     def handle_event(self, ctx: ContextProtocol, evt: Event[Message]) -> None:
         payload = evt.payload

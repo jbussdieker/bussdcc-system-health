@@ -22,30 +22,30 @@
         <dl class="mb-0">
           <dt>Processor</dt>
           <dd>
-            {% include "components/system_stats/_cpu_temperature_card.html" %}
-            {% include "components/system_stats/_cpu_usage_bar.html" %}
+            {% include "bussdcc_system/stats/components/_cpu_temperature_card.html" %}
+            {% include "bussdcc_system/stats/components/_cpu_usage_bar.html" %}
           </dd>
 
           <dt>System Load (1m/5m/15m)</dt>
           <dd>
-            {% include "components/system_stats/_system_load_card.html" %}
+            {% include "bussdcc_system/stats/components/_system_load_card.html" %}
           </dd>
 
           <dt>Memory</dt>
           <dd>
-            {% include "components/system_stats/_memory_usage_bar.html" %}
-            {% include "components/system_stats/_memory_usage_card.html" %}
+            {% include "bussdcc_system/stats/components/_memory_usage_bar.html" %}
+            {% include "bussdcc_system/stats/components/_memory_usage_card.html" %}
           </dd>
 
           <dt>Disk</dt>
           <dd>
-            {% include "components/system_stats/_disk_usage_bar.html" %}
-            {% include "components/system_stats/_disk_usage_card.html" %}
+            {% include "bussdcc_system/stats/components/_disk_usage_bar.html" %}
+            {% include "bussdcc_system/stats/components/_disk_usage_card.html" %}
           </dd>
 
           <dt>Network</dt>
           <dd>
-            {% include "components/system_stats/_network_usage_card.html" %}
+            {% include "bussdcc_system/stats/components/_network_usage_card.html" %}
           </dd>
         </dl>
       </div>
@@ -55,13 +55,13 @@
     <div class="card mb-3">
       <div class="card-header">CPU Usage (last 5 min)</div>
       <div class="card-body p-2">
-        {% include "components/system_stats/_cpu_chart.html" %}
+        {% include "bussdcc_system/stats/components/_cpu_chart.html" %}
       </div>
     </div>
     <div class="card mb-3">
       <div class="card-header">Network Traffic (last 5 min)</div>
       <div class="card-body p-2">
-        {% include "components/system_stats/_network_chart.html" %}
+        {% include "bussdcc_system/stats/components/_network_chart.html" %}
       </div>
     </div>
   </div>

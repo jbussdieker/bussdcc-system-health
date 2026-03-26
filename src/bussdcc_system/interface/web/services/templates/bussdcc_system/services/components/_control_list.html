@@ -1,0 +1,21 @@
+<ul class="list-group">
+{% for svc in services %}
+<li class="list-group-item d-flex justify-content-between align-items-center">
+
+  <span>{{ svc.name }}</span>
+
+  {% if not svc.running %}
+    <a class="btn btn-sm btn-success"
+       href="{{ url_for('bussdcc_system_services.start', service=svc.name) }}">
+       Start
+    </a>
+  {% else %}
+    <a class="btn btn-sm btn-outline-danger"
+       href="{{ url_for('bussdcc_system_services.stop', service=svc.name) }}">
+       Stop
+    </a>
+  {% endif %}
+
+</li>
+{% endfor %}
+</ul>
