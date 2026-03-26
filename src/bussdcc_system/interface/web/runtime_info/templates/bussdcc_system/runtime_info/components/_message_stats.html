@@ -1,0 +1,18 @@
+{% macro render_tree(node) %}
+<ul>
+{% for key, value in node.items() %}
+<li>
+    {% if value is mapping %}
+        <details open>
+            <summary>{{ key }}</summary>
+            {{ render_tree(value) }}
+        </details>
+    {% else %}
+        {{ key }}: {{ value }}
+    {% endif %}
+</li>
+{% endfor %}
+</ul>
+{% endmacro %}
+
+{{ render_tree(runtime_info) }}

@@ -15,6 +15,7 @@ PLUGINS = [
     "chartjs",
     "system-stats",
     "system-services",
+    "system-runtime-info",
 ]
 
 
@@ -90,7 +91,7 @@ def replay(
 ) -> None:
     source = JsonlSource(root=history_path(data_dir))
 
-    runtime = ReplayRuntime(speed=speed)
+    runtime = ReplayRuntime()
     runtime.ctx.state.set("app.version", __version__)
 
     runtime.add_sink(ConsoleSink())
@@ -109,4 +110,4 @@ def replay(
             )
         )
 
-    runtime.replay(source)
+    runtime.replay(source, speed=speed)

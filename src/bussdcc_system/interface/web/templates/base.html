@@ -38,6 +38,9 @@
             <a class="nav-link {{ "active" if request.blueprint == "bussdcc_system_stats" }}" aria-current="page" href="{{ url_for("bussdcc_system_stats.index") }}">Stats</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link {{ "active" if request.blueprint == "bussdcc_system_runtime_info" }}" aria-current="page" href="{{ url_for("bussdcc_system_runtime_info.index") }}">Runtime Info</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link {{ "active" if request.blueprint == "bussdcc_system_services" }}" aria-current="page" href="{{ url_for("bussdcc_system_services.index") }}">Services</a>
           </li>
         </ul>
