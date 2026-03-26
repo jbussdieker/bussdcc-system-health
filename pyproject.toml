@@ -37,6 +37,7 @@ license = "MIT"
 [project.entry-points."bussdcc_framework.web"]
 system-stats = "bussdcc_system.interface.web.stats.plugin:plugin"
 system-services = "bussdcc_system.interface.web.services.plugin:plugin"
+system-devices = "bussdcc_system.interface.web.devices.plugin:plugin"
 
 [project.scripts]
 bussdcc-system = "bussdcc_system.cli:main"
