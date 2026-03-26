@@ -6,12 +6,12 @@ from bussdcc import ContextProtocol
 from bussdcc_framework.web import BaseWebPlugin, FlaskApp, WebPlugin
 
 
-class SystemRuntimeInfoPlugin(BaseWebPlugin):
-    name = "system-runtime-info"
+class SystemMessageStatsPlugin(BaseWebPlugin):
+    name = "system-message-stats"
 
     def init_app(self, app: FlaskApp, ctx: ContextProtocol) -> None:
         bp = Blueprint(
-            "bussdcc_system_runtime_info",
+            "bussdcc_system_message_stats",
             __name__,
             url_prefix="/system/runtime/info",
             template_folder="templates",
@@ -19,13 +19,13 @@ class SystemRuntimeInfoPlugin(BaseWebPlugin):
 
         @bp.route("/")
         def index() -> Any:
-            runtime_info = ctx.state.get("runtime_info", {})
+            message_stats = ctx.state.get("runtime_info", {})
 
             return render_template(
-                "bussdcc_system/runtime_info/index.html", runtime_info=runtime_info
+                "bussdcc_system/message_stats/index.html", message_stats=message_stats
             )
 
         app.register_blueprint(bp)
 
 
-plugin: WebPlugin = SystemRuntimeInfoPlugin()
+plugin: WebPlugin = SystemMessageStatsPlugin()

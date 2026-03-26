@@ -4,26 +4,17 @@
 <div class="row g-3">
   <div class="col-12 col-xl-4 order-1 order-xl-1">
     <div class="card mb-3">
-      <div class="card-header">Host Information</div>
-      <div class="card-body p-2">
-        <dl class="mb-0">
-          <dt>Host Name</dt>
-          <dd class="text-break">{{ system_identity.hostname }}</dd>
-          <dt>Model</dt>
-          <dd class="text-break">{{ system_identity.model or "—"}}</dd>
-          <dt>Serial</dt>
-          <dd class="text-break">{{ system_identity.serial or "—" }}</dd>
-        </dl>
-      </div>
-    </div>
-    <div class="card mb-3">
-      <div class="card-header">System Information</div>
+      <div class="card-header">System Stats</div>
       <div class="card-body p-2">
         <dl class="mb-0">
           <dt>Processor</dt>
           <dd>
-            {% include "bussdcc_system/stats/components/_cpu_temperature_card.html" %}
             {% include "bussdcc_system/stats/components/_cpu_usage_bar.html" %}
+          </dd>
+
+          <dt>Processor Temp</dt>
+          <dd>
+            {% include "bussdcc_system/stats/components/_cpu_temperature_card.html" %}
           </dd>
 
           <dt>System Load (1m/5m/15m)</dt>

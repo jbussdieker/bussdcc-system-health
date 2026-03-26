@@ -15,47 +15,25 @@
 {% macro render_device_node(device_id) -%}
   <li class="mb-2">
     <div class="d-flex justify-content-between align-items-start gap-3">
-      <div>
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-          <a href="{{ url_for('bussdcc_system_devices.show', id=device_id) }}" class="fw-semibold text-decoration-none">
-            {{ device_id }}
-          </a>
-          <span class="badge rounded-pill text-bg-light border">{{ devices[device_id].type }}</span>
-          {{ status_badge(status_map[device_id]) }}
-        </div>
-
-        {% set deps = dependency_map.get(device_id, []) %}
-        {% set missing = missing_dependency_map.get(device_id, []) %}
-
-        {% if deps %}
-          <div class="small text-body-secondary mt-1">
-            Depends on:
-            {% for dep in deps|sort %}
-              <code>{{ dep }}</code>{% if not loop.last %}, {% endif %}
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        {% if missing %}
-          <div class="small text-warning mt-1">
-            Missing:
-            {% for dep in missing|sort %}
-              <code>{{ dep }}</code>{% if not loop.last %}, {% endif %}
-            {% endfor %}
-          </div>
-        {% endif %}
-      </div>
-
-      <div class="d-flex gap-2">
-        <a href="{{ url_for('bussdcc_system_devices.show', id=device_id) }}" class="btn btn-outline-primary btn-sm">
-          Edit
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <a href="{{ url_for('bussdcc_system_devices.show', id=device_id) }}" class="fw-semibold text-decoration-none">
+          {{ device_id }}
         </a>
-        <form method="post" action="{{ url_for('bussdcc_system_devices.delete', id=device_id) }}">
-          <button type="submit" class="btn btn-outline-danger btn-sm">
-            Delete
-          </button>
-        </form>
+        <span class="badge rounded-pill text-bg-light border">{{ devices[device_id].type }}</span>
+        {{ status_badge(status_map[device_id]) }}
       </div>
+
+      {% set deps = dependency_map.get(device_id, []) %}
+      {% set missing = missing_dependency_map.get(device_id, []) %}
+
+      {% if missing %}
+        <div class="small text-warning mt-1">
+          Missing:
+          {% for dep in missing|sort %}
+            <code>{{ dep }}</code>{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
 
     {% set children = dependent_map.get(device_id, []) %}
@@ -71,9 +49,6 @@
 
 {% block content %}
 <div class="card mb-3">
-  <div class="card-header">
-    Devices
-  </div>
   <div class="card-body">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1 class="h3 mb-0">Devices</h1>
