@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.35.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.34.0...v0.35.0) (2026-03-26)
+
+
+### Features
+
+* **web:** update plugins and improve UI for device management ([a178d15](https://github.com/jbussdieker/bussdcc-system/commit/a178d15f94edc9249957554391bd1d8fabfc63ea))
+
 ## [0.34.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.33.0...v0.34.0) (2026-03-26)
 
 
