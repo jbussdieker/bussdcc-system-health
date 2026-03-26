@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.31.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.30.0...v0.31.0) (2026-03-26)
+
+
+### Features
+
+* **web:** enhance system interface with services and stats plugins ([e3c2543](https://github.com/jbussdieker/bussdcc-system/commit/e3c25437e613e41660257ed5fbb534767aa287a1))
+
 ## [0.30.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.29.0...v0.30.0) (2026-03-25)
 
 
