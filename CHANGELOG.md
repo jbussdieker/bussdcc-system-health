@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.34.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.33.0...v0.34.0) (2026-03-26)
+
+
+### Features
+
+* **web:** enhance device management and update dependencies ([4d963a7](https://github.com/jbussdieker/bussdcc-system/commit/4d963a76acdc362795b353e9c7c655998abb1467))
+
 ## [0.33.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.32.0...v0.33.0) (2026-03-26)
 
 
