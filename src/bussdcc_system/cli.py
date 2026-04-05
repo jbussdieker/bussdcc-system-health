@@ -17,7 +17,7 @@ PLUGINS = [
     "system-stats",
     "system-services",
     "system-devices",
-    "system-runtime-info",
+    "system-message-stats",
 ]
 
 
