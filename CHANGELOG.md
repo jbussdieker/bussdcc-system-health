@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.36.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.35.1...v0.36.0) (2026-04-05)
+
+
+### Features
+
+* **cli, web:** add system-info plugin and update navigation ([eee5402](https://github.com/jbussdieker/bussdcc-system/commit/eee540290e5f7085f2fbefa2a9d40a2098fcceb1))
+
 ## [0.35.1](https://github.com/jbussdieker/bussdcc-system/compare/v0.35.0...v0.35.1) (2026-04-05)
 
 
