@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.35.1](https://github.com/jbussdieker/bussdcc-system/compare/v0.35.0...v0.35.1) (2026-04-05)
+
+
+### Bug Fixes
+
+* **cli, web:** update plugin and navigation link names ([f47edd9](https://github.com/jbussdieker/bussdcc-system/commit/f47edd9b6417de9cb2828fecbfc5132f25c71df1))
+
 ## [0.35.0](https://github.com/jbussdieker/bussdcc-system/compare/v0.34.0...v0.35.0) (2026-03-26)
 
 
