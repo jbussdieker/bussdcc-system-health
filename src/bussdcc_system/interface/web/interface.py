@@ -13,4 +13,4 @@ class WebInterface(Base):
 
         @app.route("/")
         def index() -> Any:
-            return redirect(url_for("bussdcc_system_stats.index"))
+            return redirect(url_for("bussdcc_system_info.index"))

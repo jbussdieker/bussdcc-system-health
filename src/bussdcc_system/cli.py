@@ -14,6 +14,7 @@ PLUGINS = [
     "formtree",
     "socketio",
     "chartjs",
+    "system-info",
     "system-stats",
     "system-services",
     "system-devices",
